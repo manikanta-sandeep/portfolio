@@ -76,3 +76,5 @@ Steps:
 ## Base URL Note
 
 The app is configured for root hosting (`/`) in `vite.config.js`.
+
+_Deployment trigger note: minor documentation update._
