@@ -7,11 +7,14 @@
     "node": ">=20 <25"
   },
   "scripts": {
-    "dev": "vite --open",
+    "dev": "concurrently -k -n api,web -c magenta,cyan \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:web": "vite --open",
+    "dev:api": "npm --prefix server run dev",
     "dev:host": "vite --host --open",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "create-admin": "npm --prefix server run create-admin --"
   },
   "dependencies": {
     "prop-types": "^15.8.1",
@@ -23,6 +26,7 @@
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^9.2.5",
     "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",

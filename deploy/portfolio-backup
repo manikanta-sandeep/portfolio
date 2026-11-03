@@ -1,0 +1,19 @@
+#!/bin/sh
+# Daily backup of the portfolio database and uploads; installed to /etc/cron.daily.
+# Keeps 14 days in /var/backups/portfolio. Copy these off the VM for real disaster recovery.
+set -eu
+
+DATA_DIR=/var/lib/portfolio
+BACKUP_DIR=/var/backups/portfolio
+STAMP="$(date +%F)"
+
+mkdir -p "$BACKUP_DIR"
+chmod 700 "$BACKUP_DIR"
+if [ -f "$DATA_DIR/portfolio.db" ]; then
+  # .backup takes a consistent snapshot even while the API is writing.
+  sqlite3 "$DATA_DIR/portfolio.db" ".backup '$BACKUP_DIR/portfolio-$STAMP.db'"
+fi
+if [ -d "$DATA_DIR/uploads" ]; then
+  tar -czf "$BACKUP_DIR/uploads-$STAMP.tar.gz" -C "$DATA_DIR" uploads
+fi
+find "$BACKUP_DIR" -type f -mtime +14 -delete

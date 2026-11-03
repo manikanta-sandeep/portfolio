@@ -1,138 +1,150 @@
-import NavBar from "../components/NavBar";
-import Seo from "../components/Seo";
-import { profileData, siteConfig } from "../data/profileData";
 import { Link } from "react-router-dom";
+import Reveal from "../components/Reveal";
+import Seo from "../components/Seo";
+import { ArrowRightIcon, GitHubIcon } from "../components/Icons";
+import PostContent from "../components/PostContent";
+import { useContent } from "../context/content";
+import { siteConfig } from "../data/profileData";
+import { markdownToBlocks } from "../lib/markdown";
+import { homeSchema } from "../lib/schema";
 
-const homeSchema = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      name: profileData.fullName,
-      url: siteConfig.siteUrl,
-      jobTitle: profileData.role,
-      sameAs: [profileData.linkedin, profileData.github],
-      email: `mailto:${profileData.email}`
-    },
-    {
-      "@type": "WebSite",
-      name: siteConfig.siteName,
-      url: siteConfig.siteUrl
-    }
-  ]
-};
+const INTEREST_TONES = ["blue", "green", "purple", "orange", "pink"];
 
 export default function HomePage() {
+  const { profile: profileData } = useContent();
+  const featuredProjects = profileData.projects.filter((project) => project.featured);
+
   return (
     <>
       <Seo
-        title="Home"
-        description={profileData.summary}
+        fullTitle={siteConfig.homeTitle}
+        description={siteConfig.defaultDescription}
         path="/"
-        schema={homeSchema}
+        type="profile"
+        schema={homeSchema(profileData, siteConfig)}
       />
-      <NavBar />
-      <main>
-        <section className="hero reveal" id="about">
-          <p className="eyebrow">{profileData.role}</p>
-          <h2>{profileData.fullName}</h2>
-          <p className="lead">{profileData.summary}</p>
-          <p className="meta-line">{profileData.location} · {profileData.availability}</p>
-          <div className="cta-row">
-            <a className="btn" href={profileData.resumeFile} target="_blank" rel="noreferrer">
-              Download Resume
-            </a>
-            <a className="btn secondary" href="#contact">
-              Contact
-            </a>
-          </div>
-        </section>
 
-        <section className="panel reveal" id="projects">
-          <h3>Projects</h3>
-          <div className="projects-grid">
-            {profileData.projects.map((project) => (
-              <article key={project.title} className="card">
-                <h4>{project.title}</h4>
-                <p>{project.summary}</p>
-                <p className="meta-line">{project.stack.join(" · ")}</p>
-                <Link to={`/projects/${project.id}`}>View Project</Link>
-              </article>
-            ))}
-          </div>
-        </section>
+      <Reveal as="section" className="page-section" aria-labelledby="summary-heading">
+        <div className="section-head">
+          <h2 id="summary-heading" className="section-title">
+            About Me
+          </h2>
+        </div>
+        <p className="lead">{profileData.summary}</p>
+        <p className="muted">
+          {profileData.location} · {profileData.availability}
+        </p>
+      </Reveal>
 
-        <section className="panel reveal" id="research">
-          <h3>Research</h3>
-          <div className="projects-grid">
-            {profileData.research.map((research) => (
-              <article key={research.id} className="card">
-                <h4>{research.title}</h4>
-                <p>{research.summary}</p>
-                <p className="meta-line">{research.stack.join(" · ")}</p>
-                <Link to={`/research/${research.id}`}>View Research</Link>
-              </article>
-            ))}
-          </div>
-        </section>
+      <Reveal as="section" className="page-section" aria-labelledby="education-heading">
+        <h2 id="education-heading" className="section-title">
+          Education
+        </h2>
+        <div className="rule-list">
+          {profileData.education.map((item) => (
+            <div key={item.degree} className="rule-item rule-blue">
+              <h3 className="item-title">
+                {item.degree} {item.gpa && <span className="accent-text">({item.gpa})</span>}
+              </h3>
+              <p className="item-org">
+                {item.url ? (
+                  <a href={item.url} target="_blank" rel="noopener noreferrer">
+                    {item.institution}
+                  </a>
+                ) : (
+                  item.institution
+                )}
+              </p>
+              <p className="item-meta">{item.period}</p>
+            </div>
+          ))}
+        </div>
+      </Reveal>
 
-        <section className="panel reveal" id="experience">
-          <h3>Experience</h3>
-          {profileData.experience.map((item) => (
-            <article key={`${item.company}-${item.period}`} className="timeline-item">
-              <h4>{item.role} · {item.company}</h4>
-              <p className="meta-line">{item.period}</p>
-              <ul>
-                {item.highlights.map((point) => (
+      <Reveal as="section" className="page-section" aria-labelledby="experience-heading">
+        <h2 id="experience-heading" className="section-title">
+          Experience
+        </h2>
+        <div className="rule-list">
+          {profileData.experience.map((job) => (
+            <div key={`${job.role}-${job.period}`} className="rule-item rule-green">
+              <h3 className="item-title">{job.role}</h3>
+              <p className="item-org">
+                {job.companyUrl ? (
+                  <a href={job.companyUrl} target="_blank" rel="noopener noreferrer">
+                    {job.company}
+                  </a>
+                ) : (
+                  job.company
+                )}
+              </p>
+              <p className="item-meta">{job.period}</p>
+              <ul className="bullets">
+                {job.highlights.map((point) => (
                   <li key={point}>{point}</li>
                 ))}
               </ul>
-            </article>
+            </div>
           ))}
-        </section>
+        </div>
+      </Reveal>
 
-        <section className="panel reveal" id="education">
-          <h3>Education</h3>
-          {profileData.education.map((item) => (
-            <article key={`${item.institution}-${item.period}`} className="timeline-item">
-              <h4>{item.degree}</h4>
-              <p>{item.institution}</p>
-              <p className="meta-line">{item.period}</p>
-            </article>
-          ))}
-        </section>
-
-        <section className="panel reveal" id="certifications">
-          <h3>Certifications</h3>
-          <ul>
-            {profileData.certifications.map((certification) => (
-              <li key={certification}>{certification}</li>
+      {featuredProjects.length > 0 && (
+        <Reveal as="section" className="page-section" aria-labelledby="projects-heading">
+          <h2 id="projects-heading" className="section-title">
+            Things I&apos;ve Built
+          </h2>
+          <div className="rule-list">
+            {featuredProjects.map((project) => (
+              <div key={project.id} className="rule-item rule-purple">
+                <div className="item-title-row">
+                  <h3 className="item-title">
+                    <Link to={`/projects/${project.id}`}>{project.title}</Link>
+                  </h3>
+                  {project.github && (
+                    <a
+                      className="icon-link"
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="View on GitHub"
+                      aria-label={`${project.title} on GitHub`}
+                    >
+                      <GitHubIcon />
+                    </a>
+                  )}
+                </div>
+                <p>{project.summary}</p>
+                <span className="chip chip-purple">{project.stack.join(", ")}</span>
+              </div>
             ))}
-          </ul>
-        </section>
+          </div>
+          <div className="center-row">
+            <Link className="btn btn-purple" to="/projects">
+              See all projects
+              <ArrowRightIcon />
+            </Link>
+          </div>
+        </Reveal>
+      )}
 
-        <section className="panel reveal" id="skills">
-          <h3>Skills</h3>
-          <ul className="chip-grid">
-            {profileData.skills.map((skill) => (
-              <li key={skill}>{skill}</li>
+      <Reveal as="section" className="page-section" aria-labelledby="interests-heading">
+        <h2 id="interests-heading" className="section-title">
+          What I&apos;m Focused On
+        </h2>
+        <div className="callout">
+          <div className="callout-body">
+            <PostContent blocks={markdownToBlocks(profileData.interests)} />
+          </div>
+          <div className="callout-tags">
+            {profileData.interestTags.map((tag, index) => (
+              <span key={tag} className={`chip chip-lg chip-${INTEREST_TONES[index % INTEREST_TONES.length]}`}>
+                {tag}
+              </span>
             ))}
-          </ul>
-        </section>
-
-        <section className="panel reveal" id="contact">
-          <h3>Contact</h3>
-          <p>
-            Email: <a href={`mailto:${profileData.email}`}>{profileData.email}</a>
-          </p>
-          <p>
-            LinkedIn: <a href={profileData.linkedin} target="_blank" rel="noreferrer">Profile</a>
-          </p>
-          <p>
-            GitHub: <a href={profileData.github} target="_blank" rel="noreferrer">Repositories</a>
-          </p>
-        </section>
-      </main>
+          </div>
+        </div>
+      </Reveal>
     </>
   );
 }

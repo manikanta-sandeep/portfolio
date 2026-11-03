@@ -1,59 +1,108 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Link, useParams } from "react-router-dom";
 import Seo from "../components/Seo";
-import { profileData, siteConfig } from "../data/profileData";
+import { ArrowLeftIcon, ExternalLinkIcon, GitHubIcon } from "../components/Icons";
+import { useContent } from "../context/content";
+import { siteConfig } from "../data/profileData";
+import NotFoundPage from "./NotFoundPage";
 
-export default function ProjectPage() {
+const KINDS = {
+  project: { label: "Project", basePath: "/projects", collection: "projects", schemaType: "CreativeWork" },
+  research: { label: "Research", basePath: "/research", collection: "research", schemaType: "ScholarlyArticle" }
+};
+
+const breadcrumbLinks = [
+  { label: "About", to: "/" },
+  { label: "Experience", to: "/experience" },
+  { label: "Projects", to: "/projects" },
+  { label: "Skills", to: "/skills" },
+  { label: "Beyond Work", to: "/extracurriculars" }
+];
+
+export default function ProjectPage({ kind = "project" }) {
   const { id } = useParams();
-  const project = profileData.projects.find((entry) => entry.id === id);
+  const { profile: profileData } = useContent();
+  const { label, basePath, collection, schemaType } = KINDS[kind];
+  const item = profileData[collection].find((entry) => entry.id === id);
 
-  if (!project) {
-    return <Navigate to="/" replace />;
+  if (!item) {
+    return <NotFoundPage />;
   }
 
-  const projectSchema = {
+  const path = `${basePath}/${item.id}`;
+  const schema = {
     "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: project.title,
-    description: project.summary,
-    keywords: project.stack.join(", "),
-    url: `${siteConfig.siteUrl}/projects/${project.id}`
+    "@type": schemaType,
+    [schemaType === "ScholarlyArticle" ? "headline" : "name"]: item.title,
+    description: item.summary,
+    keywords: item.stack.join(", "),
+    url: `${siteConfig.siteUrl}${path}`
   };
 
   return (
-    <>
-      <Seo
-        title={project.title}
-        description={project.summary}
-        path={`/projects/${project.id}`}
-        type="article"
-        schema={projectSchema}
-      />
+    <div className="container detail-page">
+      <Seo title={item.title} description={item.summary} path={path} type="article" schema={schema} />
 
-      <header className="site-header" role="banner">
-        <div className="brand-block">
-          <p className="eyebrow">Project</p>
-          <h1>{project.title}</h1>
-        </div>
-        <nav aria-label="Project Navigation">
-          <ul className="nav-list">
-            <li>
-              <Link to="/">Back to Portfolio</Link>
-            </li>
-            <li>
-              <Link to="/blog">Blog</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <nav className="crumb-nav" aria-label="Portfolio">
+        <Link to="/" className="crumb-home">
+          {profileData.displayName}
+        </Link>
+        {breadcrumbLinks.map((link) => (
+          <span key={link.to} className="crumb-item">
+            <span className="crumb-sep" aria-hidden="true">
+              |
+            </span>
+            <Link to={link.to}>{link.label}</Link>
+          </span>
+        ))}
+      </nav>
 
-      <main>
-        <article className="panel reveal article-layout">
-          <p className="meta-line">{project.stack.join(" · ")}</p>
-          {project.content?.map((paragraph, index) => (
-            <p key={`${project.id}-${index}`}>{paragraph}</p>
+      <article className="card detail-card">
+        <header className="detail-header">
+          <p className="eyebrow">{label}</p>
+          <h1>{item.title}</h1>
+          <div className="tag-row">
+            {item.stack.map((tech) => (
+              <span key={tech} className="tag">
+                {tech}
+              </span>
+            ))}
+          </div>
+          {(item.github || item.demo) && (
+            <div className="button-row">
+              {item.github && (
+                <a className="btn btn-dark" href={item.github} target="_blank" rel="noopener noreferrer">
+                  <GitHubIcon />
+                  View Code
+                </a>
+              )}
+              {item.demo && (
+                <a className="btn btn-primary" href={item.demo} target="_blank" rel="noopener noreferrer">
+                  <ExternalLinkIcon />
+                  Live Demo
+                </a>
+              )}
+            </div>
+          )}
+        </header>
+        <div className="detail-body prose">
+          <p className="lead">{item.summary}</p>
+          {item.content?.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
           ))}
-        </article>
-      </main>
-    </>
+        </div>
+      </article>
+
+      <div className="detail-footer">
+        <Link className="text-link" to="/projects">
+          <ArrowLeftIcon />
+          All projects
+        </Link>
+      </div>
+    </div>
   );
 }
+
+ProjectPage.propTypes = {
+  kind: PropTypes.oneOf(Object.keys(KINDS))
+};

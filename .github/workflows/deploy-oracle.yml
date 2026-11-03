@@ -1,0 +1,75 @@
+name: Deploy Portfolio to Oracle Cloud
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: oracle-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      # Secrets (Settings > Secrets and variables > Actions):
+      #   ORACLE_HOST         VM public IP
+      #   ORACLE_USER         SSH user, "ubuntu" on Ubuntu images
+      #   ORACLE_SSH_KEY      private key whose public half is on the VM
+      #   ORACLE_KNOWN_HOSTS  output of `ssh-keyscan -H <VM public IP>`
+      - name: Configure SSH
+        env:
+          ORACLE_SSH_KEY: ${{ secrets.ORACLE_SSH_KEY }}
+          ORACLE_KNOWN_HOSTS: ${{ secrets.ORACLE_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$ORACLE_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "$ORACLE_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      - name: Upload Site
+        env:
+          ORACLE_HOST: ${{ secrets.ORACLE_HOST }}
+          ORACLE_USER: ${{ secrets.ORACLE_USER }}
+        run: |
+          rsync -az --delete -e "ssh -i ~/.ssh/id_deploy" \
+            dist/ "$ORACLE_USER@$ORACLE_HOST:/var/www/sandeeppuppala.com/"
+
+      # The API imports shared/ (form schema) and src/data/ (first-run seed), so those are
+      # shipped alongside server/ with their relative paths kept. The database lives in
+      # /var/lib/portfolio and is never touched by deploys.
+      - name: Upload API
+        env:
+          ORACLE_HOST: ${{ secrets.ORACLE_HOST }}
+          ORACLE_USER: ${{ secrets.ORACLE_USER }}
+        run: |
+          rsync -azR --delete -e "ssh -i ~/.ssh/id_deploy" \
+            --exclude 'server/node_modules' --exclude 'server/data' \
+            server shared src/data "$ORACLE_USER@$ORACLE_HOST:/opt/portfolio/"
+
+      - name: Restart API
+        env:
+          ORACLE_HOST: ${{ secrets.ORACLE_HOST }}
+          ORACLE_USER: ${{ secrets.ORACLE_USER }}
+        run: |
+          ssh -i ~/.ssh/id_deploy "$ORACLE_USER@$ORACLE_HOST" \
+            'cd /opt/portfolio/server && npm ci --omit=dev && sudo systemctl restart portfolio-api && sleep 2 && curl -fsS -H "X-Requested-With: portfolio" http://127.0.0.1:3001/api/health'

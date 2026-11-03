@@ -26,16 +26,20 @@ function upsertLink(selector, attrs) {
   });
 }
 
-export default function Seo({ title, description, path = "/", type = "website", schema }) {
+// `fullTitle` replaces the whole <title>; otherwise the page title is followed by the site name.
+export default function Seo({ title, fullTitle, description, path = "/", type = "website", schema, noindex = false }) {
   useEffect(() => {
-    const pageTitle = title ? `${title} | ${siteConfig.siteName}` : siteConfig.siteName;
+    const pageTitle = fullTitle || (title ? `${title} | ${siteConfig.siteName}` : siteConfig.siteName);
     const pageDescription = description || siteConfig.defaultDescription;
     const canonical = `${siteConfig.siteUrl}${path === "/" ? "/" : path}`;
 
     document.title = pageTitle;
 
     upsertMeta("meta[name='description']", { name: "description", content: pageDescription });
-    upsertMeta("meta[name='robots']", { name: "robots", content: "index, follow, max-image-preview:large" });
+    upsertMeta("meta[name='robots']", {
+      name: "robots",
+      content: noindex ? "noindex, follow" : "index, follow, max-image-preview:large"
+    });
 
     upsertMeta("meta[property='og:title']", { property: "og:title", content: pageTitle });
     upsertMeta("meta[property='og:description']", { property: "og:description", content: pageDescription });
@@ -52,24 +56,32 @@ export default function Seo({ title, description, path = "/", type = "website", 
 
     upsertLink("link[rel='canonical']", { rel: "canonical", href: canonical });
 
+    // One structured-data block per page (index.html ships the home page's); pages without
+    // their own schema drop it rather than publishing an empty one.
     const schemaId = "app-schema";
     let schemaTag = document.getElementById(schemaId);
-    if (!schemaTag) {
-      schemaTag = document.createElement("script");
-      schemaTag.type = "application/ld+json";
-      schemaTag.id = schemaId;
-      document.head.appendChild(schemaTag);
+    if (!schema) {
+      schemaTag?.remove();
+    } else {
+      if (!schemaTag) {
+        schemaTag = document.createElement("script");
+        schemaTag.type = "application/ld+json";
+        schemaTag.id = schemaId;
+        document.head.appendChild(schemaTag);
+      }
+      schemaTag.textContent = JSON.stringify(schema);
     }
-    schemaTag.textContent = JSON.stringify(schema || {}, null, 2);
-  }, [title, description, path, type, schema]);
+  }, [title, fullTitle, description, path, type, schema, noindex]);
 
   return null;
 }
 
 Seo.propTypes = {
   title: PropTypes.string,
+  fullTitle: PropTypes.string,
   description: PropTypes.string,
   path: PropTypes.string,
   type: PropTypes.string,
-  schema: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+  schema: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  noindex: PropTypes.bool
 };

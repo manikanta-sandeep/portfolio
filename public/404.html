@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting…</title>
+    <script>
+      // GitHub Pages serves this file for any unknown path. Send the visitor to the app's
+      // index with the path in the query string ("/portfolio/blog/x" -> "/portfolio/?/blog/x");
+      // restoreRedirectedPath() in src/lib/paths.js restores it for the client-side router.
+      (function (location) {
+        var segments = location.pathname.split("/");
+        var keep = segments[1] === "portfolio" ? 1 : 0;
+        var root = segments.slice(0, 1 + keep).join("/");
+        var route = segments.slice(1 + keep).join("/").replace(/&/g, "~and~");
+        var query = location.search ? "&" + location.search.slice(1).replace(/&/g, "~and~") : "";
+        location.replace(location.protocol + "//" + location.host + root + "/?/" + route + query + location.hash);
+      })(window.location);
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://manikanta-sandeep.github.io/sitemap.xml
+Sitemap: https://sandeeppuppala.com/sitemap.xml

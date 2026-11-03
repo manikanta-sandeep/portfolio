@@ -1,25 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Portfolio of Manikanta Sandeep - software engineering projects, skills, experience, certifications, and technical writing." />
+    <meta name="color-scheme" content="dark light" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Manikanta Sandeep | Portfolio" />
-    <meta property="og:description" content="Portfolio of Manikanta Sandeep - software engineering projects, skills, experience, certifications, and technical writing." />
-    <meta property="og:url" content="https://manikanta-sandeep.github.io/" />
-    <meta property="og:image" content="https://manikanta-sandeep.github.io/social-preview.svg" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Manikanta Sandeep | Portfolio" />
-    <meta name="twitter:description" content="Portfolio of Manikanta Sandeep - software engineering projects, skills, experience, certifications, and technical writing." />
-    <meta name="twitter:image" content="https://manikanta-sandeep.github.io/social-preview.svg" />
-    <link rel="canonical" href="https://manikanta-sandeep.github.io/" />
-    <title>Manikanta Sandeep | Portfolio</title>
+    <meta name="theme-color" content="#7c3aed" />
+    <!-- Icons: SVG for modern browsers, PNG/ICO for search results and older browsers. -->
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" data-file="favicon.svg" />
+    <link rel="icon" type="image/png" sizes="48x48" href="./favicon-48.png" data-file="favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" data-file="icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" data-file="apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" data-file="site.webmanifest" />
+    <!-- seo:head -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script>
+      // Apply the saved (or system) theme before first paint to avoid a flash.
+      (function () {
+        var theme;
+        try {
+          theme = localStorage.getItem("theme");
+        } catch (error) {
+          theme = null;
+        }
+        if (theme !== "light" && theme !== "dark") {
+          theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.dataset.theme = theme;
+
+        // Pin icon links to the hosting root; relative hrefs would resolve against deep links.
+        var root = window.location.pathname.indexOf("/portfolio") === 0 ? "/portfolio/" : "/";
+        document.querySelectorAll("link[data-file]").forEach(function (link) {
+          link.href = root + link.getAttribute("data-file");
+        });
+      })();
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- seo:body -->
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
