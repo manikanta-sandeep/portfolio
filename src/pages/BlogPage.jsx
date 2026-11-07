@@ -109,7 +109,8 @@ export default function BlogPage() {
   const stats = [
     { label: "Posts", value: sortedPosts.length },
     { label: "Topics", value: categories.length },
-    ...(source === "api"
+    // Posts carry view counts only when "Show view counts" is on in the admin profile.
+    ...(source === "api" && sortedPosts.some((post) => typeof post.views === "number")
       ? [{ label: "Reads", value: totalViews(sortedPosts).toLocaleString() }]
       : [{ label: "Minutes to Read", value: sortedPosts.reduce((total, post) => total + readingTime(post), 0) }])
   ];

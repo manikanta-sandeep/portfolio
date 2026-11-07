@@ -247,11 +247,18 @@ export function recordView(db, slug, { ip, userAgent }) {
 
 // ---------- Public content ----------
 
+// The "Show view counts" profile setting. Profiles saved before it existed show them.
+export function viewsArePublic(db) {
+  return getProfile(db).showViews !== false;
+}
+
 export function getPublicContent(db) {
   const profile = getProfile(db);
   COLLECTIONS.forEach((name) => {
     profile[name] = getCollection(db, name);
   });
-  const posts = listPosts(db).map(({ dbId, published, updatedAt, ...post }) => post);
+  const showViews = profile.showViews !== false;
+  // When view counts are hidden they are left out of the response, not just the page.
+  const posts = listPosts(db).map(({ dbId, published, updatedAt, views, ...post }) => (showViews ? { ...post, views } : post));
   return { profile, posts };
 }

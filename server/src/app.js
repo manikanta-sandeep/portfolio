@@ -26,7 +26,8 @@ import {
   recordView,
   saveCollection,
   saveProfile,
-  updatePost
+  updatePost,
+  viewsArePublic
 } from "./content.js";
 import { HttpError, badRequest, notFound } from "./errors.js";
 import { buildSitemap } from "./sitemap.js";
@@ -92,16 +93,19 @@ export function createApp({ db, uploadsDir, siteUrl }) {
   });
 
   api.post("/posts/:slug/view", (req, res) => {
+    let result;
     // Your own visits while signed in are not counted.
     if (userFromRequest(db, req)) {
       const post = listPosts(db).find((entry) => entry.id === req.params.slug);
       if (!post) {
         throw notFound("Post not found.");
       }
-      res.json({ views: post.views, counted: false });
-      return;
+      result = { views: post.views, counted: false };
+    } else {
+      result = recordView(db, req.params.slug, { ip: req.ip, userAgent: req.get("User-Agent") || "" });
     }
-    res.json(recordView(db, req.params.slug, { ip: req.ip, userAgent: req.get("User-Agent") || "" }));
+    // Still counted when view counts are hidden, but the number isn't sent to the page.
+    res.json(viewsArePublic(db) ? result : { counted: result.counted });
   });
 
   api.post(

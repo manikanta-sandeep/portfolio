@@ -7,7 +7,7 @@ export function toForm(fields, record = {}) {
       const value = record[field.key];
       switch (field.type) {
         case "checkbox":
-          return [field.key, Boolean(value)];
+          return [field.key, value === undefined ? Boolean(field.default) : Boolean(value)];
         case "list":
           return [field.key, (value || []).join(field.separator === "comma" ? ", " : "\n")];
         case "paragraphs":

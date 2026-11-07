@@ -28,7 +28,14 @@ export const PROFILE_FIELDS = [
   { key: "tagline", label: "Footer tagline", type: "text", max: 200 },
   { key: "responseTime", label: "Reply time", type: "text", max: 40, help: 'Shown on the contact page, e.g. "24-48 hours".' },
   { key: "interests", label: "Interests & focus areas", type: "markdown", max: 5000 },
-  { key: "interestTags", label: "Interest tags", type: "list", separator: "comma" }
+  { key: "interestTags", label: "Interest tags", type: "list", separator: "comma" },
+  {
+    key: "showViews",
+    label: "Show view counts on the blog",
+    type: "checkbox",
+    default: true,
+    help: "When off, visitors don't see view counts. Views are still counted and shown in your dashboard."
+  }
 ];
 
 const workFields = [
@@ -181,7 +188,8 @@ export function cleanRecord(fields, input = {}) {
     const raw = input[field.key];
 
     if (field.type === "checkbox") {
-      value[field.key] = raw === true || raw === "true" || raw === 1;
+      value[field.key] =
+        raw === undefined && field.default !== undefined ? Boolean(field.default) : raw === true || raw === "true" || raw === 1;
       return;
     }
 
