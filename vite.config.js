@@ -8,7 +8,9 @@ import seoHtml from "./seo-html.js";
 const apiTarget = process.env.API_URL || "http://127.0.0.1:3001";
 
 export default defineConfig({
-  base: "./",
+  // Absolute asset paths, so deep links like /blog/some-post load /assets/... rather than
+  // /blog/assets/.... The GitHub Pages build overrides this with --base=/portfolio/.
+  base: "/",
   server: {
     watch: {
       usePolling: true,
