@@ -6,6 +6,7 @@ import { slugify } from "../lib/format";
 import { publicUrl } from "../lib/paths";
 import { CheckIcon, CopyIcon, PlayIcon } from "./Icons";
 import InlineText from "./InlineText";
+import LoopVideo from "./LoopVideo";
 
 function CodeBlock({ language, code }) {
   const notify = useToast();
@@ -139,6 +140,13 @@ function renderBlock(block, index) {
       );
     case "video":
       return <VideoBlock key={index} src={block.src} poster={block.poster} caption={block.caption} />;
+    case "animation":
+      return (
+        <figure key={index} className="post-figure">
+          <LoopVideo src={block.src} poster={block.poster} label={block.caption || "Animation"} />
+          {block.caption && <figcaption>{block.caption}</figcaption>}
+        </figure>
+      );
     case "youtube":
       return (
         <figure key={index} className="post-figure">

@@ -95,15 +95,16 @@ export function createApp({ db, uploadsDir, siteUrl }) {
 
   api.post("/posts/:slug/view", (req, res) => {
     let result;
-    // Your own visits while signed in are not counted.
-    if (userFromRequest(db, req)) {
+    const userAgent = req.get("User-Agent") || "";
+    // Your own visits while signed in, and bots (crawlers, link previews), are not counted.
+    if (userFromRequest(db, req) || isBot(userAgent)) {
       const post = listPosts(db).find((entry) => entry.id === req.params.slug);
       if (!post) {
         throw notFound("Post not found.");
       }
       result = { views: post.views, counted: false };
     } else {
-      result = recordView(db, req.params.slug, { ip: req.ip, userAgent: req.get("User-Agent") || "" });
+      result = recordView(db, req.params.slug, { ip: req.ip, userAgent });
     }
     // Still counted when view counts are hidden, but the number isn't sent to the page.
     res.json(viewsArePublic(db) ? result : { counted: result.counted });

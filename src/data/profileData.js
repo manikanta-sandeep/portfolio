@@ -119,6 +119,49 @@ I enjoy exploring new technologies and keeping up with industry trends. Open to 
   ],
   projects: [
     {
+      id: "penalty-kick-prediction",
+      title: "Penalty Kick & Goalkeeper Direction Prediction from Video",
+      summary:
+        "A video pipeline that predicts where a penalty kick will go and which way the goalkeeper will dive, from run-up footage that stops 0.02 s before the ball is struck. I built it end to end for NYU CS-GY 6643 (Computer Vision), which we entered as a two-person team in a class Kaggle competition.",
+      stack: ["Python", "PyTorch", "YOLO11x", "RTMPose", "DINOv2", "ConvNeXt", "R(2+1)D", "LightGBM", "OWLv2", "Optical Flow", "Slurm / HPC"],
+      featured: true,
+      github: "",
+      demo: "",
+      writeup: "/blog/predicting-penalty-kicks-from-run-up-video",
+      media: "/projects/penalty-kick/pipeline.mp4",
+      mediaPoster: "/projects/penalty-kick/pipeline-poster.jpg",
+      mediaCaption: "The pipeline, step by step (illustration, not real match footage)",
+      content: [
+        "Each clip ends just before the kicker's foot meets the ball, so the model never sees the strike. It has to read the run-up and the players' posture to predict two things, both from the kicker's point of view: the kick direction (left, middle or right) and the goalkeeper's move (dive left, stay, dive right). The score is 0.7 × kick accuracy + 0.3 × keeper accuracy.",
+        "The data is 2,200 broadcast clips from 215 source videos of men's and women's matches: shootouts, highlights and compilations, 1,300 for training and 900 for testing. Camera angles vary widely (some are mirrored), the frame is full of other people, and clips run from 0.3 to 9.8 seconds.",
+        "I first find the right people. YOLO11x tracks players and the ball on a 25 Hz grid, OWLv2 finds the goal mouth, and the penalty ball is the object that stays still across frames. A pair-ranking picker chooses the kicker and keeper from their geometry relative to the ball and goal, with a DINOv2 appearance check to rescue wrong picks. Pitch calibration gives the camera view, and every clip is mirrored into one canonical frame that also accounts for the kicker's preferred foot.",
+        "From there, RTMPose extracts 26-keypoint skeletons for kicker and keeper, alongside optical-flow and geometry features. A LightGBM model on these features was my first baseline (0.710 public). Fine-tuned DINOv2 (ViT-B and ViT-L), ConvNeXt and R(2+1)D video models added what hand-built features missed. Fourteen models are combined by a logistic-regression stack trained on out-of-fold predictions.",
+        "Validation was grouped by source video from day one (5 folds × 3 seeds), because clips from the same shootout leak between folds. The best public score was 0.826 against the 0.514 sample baseline, with 92% keeper accuracy in cross-validation. For the final ranking I chose the submission with the strongest cross-validation (0.801 CV, 0.819 public) using decision rules set in advance. The private leaderboard, which decides the final rank, hasn't been released yet.",
+        "Training ran on NYU's HPC course cluster (NVIDIA A100 40 GB GPUs under Slurm); retraining the final ensemble from scratch takes about 140 A100-hours. The code stays private until the course allows sharing it."
+      ]
+    },
+    {
+      id: "cross-modal-neuron-matching",
+      title: "Cross-Modal Neuron Segmentation & Matching",
+      summary:
+        "Segments every neuron in paired in-vivo two-photon and ex-vivo fluorescence images of mouse brain, then matches each cell across the two images with no alignment given. I built it end to end for NYU CS-GY 6643 (Computer Vision), which we entered as a two-person team in a class Kaggle competition.",
+      stack: ["Python", "PyTorch", "Cellpose-SAM", "DINOv2", "DINOCell", "OpenCV", "LightGBM", "ICP", "Hungarian Algorithm", "Slurm / HPC"],
+      featured: true,
+      github: "",
+      demo: "",
+      writeup: "/blog/finding-the-same-neuron-twice",
+      media: "/projects/neuron-matching/pipeline.mp4",
+      mediaPoster: "/projects/neuron-matching/pipeline-poster.jpg",
+      mediaCaption: "The pipeline on one test region, redrawn as stylized cells from my predicted masks (no microscopy images)",
+      content: [
+        "The same brain region is imaged twice: once alive, with a two-photon microscope (hazy, about 600 × 600 px), and once after the tissue is fixed and sectioned, with fluorescence microscopy (sharper, up to 1627 × 1627 px, and full of bright processes that look like cells). The section is rotated, slightly scaled and not in the same optical plane, and no alignment is given. The task is to segment every neuron in both images and say which cells are the same.",
+        "The score is 0.25 × panoptic quality on each modality plus 0.5 × the F1 of the matches, and a mask only counts at IoU above 0.75. A pair counts only if both of its masks pass, so matching depends on segmentation: on a ~10 px cell, one pixel of outline error can lose the pair. Held out, 79% of the missed pairs failed on a mask, not on the matching.",
+        "Segmentation: fine-tuned Cellpose-SAM with top-hat filtered input at 3× scale won on in-vivo (held-out PQ 0.745, up from 0.605), with DINOCell's confident extra cells added on top. For ex-vivo, DINOCell (a DINOv2 ViT-B/8 backbone pretrained on 130k cell images, with a Cellpose flow head) carried over to the unseen mice best.",
+        "Matching: I registered first, then matched. Hough voting over rotation and scale finds candidate affine transforms between the two cell constellations, ICP refines them and a learned ranker picks one, with a second pass that borrows confident transforms within each mouse. Every cell pair within 9 px after the transform is scored by a gradient-boosted verifier on 28 features, Hungarian assignment keeps one-to-one pairs, and regions with a registration probability below 0.2 get none. The course's suggested learned matcher, MARCO, registered 0 of 28 training regions.",
+        "The final pipeline scored 0.531 on the public leaderboard and 0.548 under leave-one-mouse-out validation, which mirrors the test set of two unseen mice. Training ran on NYU's HPC cluster (NVIDIA A100 GPUs under Slurm)."
+      ]
+    },
+    {
       id: "face-recognition-attendance",
       title: "Face-Recognition based Attendance System",
       summary:

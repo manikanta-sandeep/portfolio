@@ -46,6 +46,16 @@ const workFields = [
   { key: "stack", label: "Tech stack", type: "list", separator: "comma" },
   { key: "github", label: "GitHub URL", type: "url" },
   { key: "demo", label: "Demo URL", type: "url" },
+  { key: "writeup", label: "Write-up URL", type: "url", help: "A blog post about it, e.g. /blog/my-post. Shows a Read the write-up button." },
+  {
+    key: "media",
+    label: "Animation or image",
+    type: "url",
+    upload: "image",
+    help: "Shown at the top of the page. An .mp4/.webm plays muted on a loop like a GIF; images and GIFs show as is."
+  },
+  { key: "mediaPoster", label: "Animation poster", type: "url", upload: "image", help: "Still image shown before the animation plays." },
+  { key: "mediaCaption", label: "Animation caption", type: "text", max: 200 },
   { key: "content", label: "Details", type: "paragraphs", help: "Separate paragraphs with a blank line." }
 ];
 

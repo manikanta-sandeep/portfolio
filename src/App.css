@@ -1433,6 +1433,24 @@
   max-height: 80vh;
 }
 
+/* Looping animations are 16:9; reserving the space avoids a jump while the video loads. */
+.loop-video video {
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: contain;
+}
+
+.detail-media {
+  margin: 24px 0 8px;
+}
+
+.detail-media figcaption {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-3);
+}
+
 .video-play {
   position: absolute;
   inset: 0;
@@ -3136,4 +3154,10 @@ mark {
     transform: none;
     transition: none;
   }
+}
+
+.detail-media-image {
+  width: 100%;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
 }

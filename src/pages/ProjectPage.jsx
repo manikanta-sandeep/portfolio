@@ -1,10 +1,36 @@
 import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
+import LoopVideo from "../components/LoopVideo";
 import Seo from "../components/Seo";
-import { ArrowLeftIcon, ExternalLinkIcon, GitHubIcon } from "../components/Icons";
+import { ArrowLeftIcon, BookOpenIcon, ExternalLinkIcon, GitHubIcon } from "../components/Icons";
 import { useContent } from "../context/content";
 import { siteConfig } from "../data/profileData";
+import { publicUrl } from "../lib/paths";
 import NotFoundPage from "./NotFoundPage";
+
+// The optional animation or image at the top of a project page.
+function ProjectMedia({ item }) {
+  const label = item.mediaCaption || item.title;
+  return (
+    <figure className="detail-media">
+      {/\.(mp4|webm)$/i.test(item.media) ? (
+        <LoopVideo src={item.media} poster={item.mediaPoster} label={label} />
+      ) : (
+        <img className="detail-media-image" src={publicUrl(item.media)} alt={label} />
+      )}
+      {item.mediaCaption && <figcaption>{item.mediaCaption}</figcaption>}
+    </figure>
+  );
+}
+
+ProjectMedia.propTypes = {
+  item: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    media: PropTypes.string.isRequired,
+    mediaPoster: PropTypes.string,
+    mediaCaption: PropTypes.string
+  }).isRequired
+};
 
 const KINDS = {
   project: { label: "Project", basePath: "/projects", collection: "projects", schemaType: "CreativeWork" },
@@ -68,8 +94,20 @@ export default function ProjectPage({ kind = "project" }) {
               </span>
             ))}
           </div>
-          {(item.github || item.demo) && (
+          {(item.github || item.demo || item.writeup) && (
             <div className="button-row">
+              {item.writeup &&
+                (item.writeup.startsWith("/") ? (
+                  <Link className="btn btn-primary" to={item.writeup}>
+                    <BookOpenIcon />
+                    Read the write-up
+                  </Link>
+                ) : (
+                  <a className="btn btn-primary" href={item.writeup} target="_blank" rel="noopener noreferrer">
+                    <BookOpenIcon />
+                    Read the write-up
+                  </a>
+                ))}
               {item.github && (
                 <a className="btn btn-dark" href={item.github} target="_blank" rel="noopener noreferrer">
                   <GitHubIcon />
@@ -85,6 +123,7 @@ export default function ProjectPage({ kind = "project" }) {
             </div>
           )}
         </header>
+        {item.media && <ProjectMedia item={item} />}
         <div className="detail-body prose">
           <p className="lead">{item.summary}</p>
           {item.content?.map((paragraph) => (

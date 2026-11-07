@@ -1,6 +1,6 @@
 const HEADING = /^(#{2,3})\s+(.+)$/;
 const IMAGE = /^!\[([^\]]*)\]\((\S+)(?:\s+"([^"]*)")?\)$/;
-const EMBED = /^@\[(video|youtube)\]\((\S+)(?:\s+([^\s"]+))?(?:\s+"([^"]*)")?\)$/;
+const EMBED = /^@\[(video|youtube|animation)\]\((\S+)(?:\s+([^\s"]+))?(?:\s+"([^"]*)")?\)$/;
 const BULLET = /^\s*[-*]\s+/;
 const NUMBERED = /^\s*\d+\.\s+/;
 
@@ -42,7 +42,7 @@ export function markdownToBlocks(text = "") {
       blocks.push(
         match[1] === "youtube"
           ? { type: "youtube", id: match[2], title: match[4] }
-          : { type: "video", src: match[2], poster: match[3], caption: match[4] }
+          : { type: match[1], src: match[2], poster: match[3], caption: match[4] }
       );
     } else if (BULLET.test(trimmed) || NUMBERED.test(trimmed)) {
       flush();
