@@ -10,7 +10,8 @@ export const COLLECTIONS = [
   "teaching",
   "activities",
   "achievements",
-  "certifications"
+  "certifications",
+  "qrCodes"
 ];
 
 // Each entry upgrades the schema by one version; never edit an entry that has shipped,
@@ -83,6 +84,39 @@ const MIGRATIONS = [
     is_read INTEGER NOT NULL DEFAULT 0,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
   );
+  `,
+  // Site analytics. Times are epoch milliseconds. "visitor" is a salted hash of IP, browser,
+  // and day (no IP is stored); "session" is a random id from the visitor's tab.
+  `
+  CREATE TABLE analytics_pageviews (
+    id TEXT PRIMARY KEY,
+    ts INTEGER NOT NULL,
+    last_seen INTEGER NOT NULL,
+    visitor TEXT NOT NULL,
+    session TEXT NOT NULL,
+    entry INTEGER NOT NULL DEFAULT 0,
+    path TEXT NOT NULL,
+    referrer TEXT NOT NULL DEFAULT '',
+    source TEXT NOT NULL DEFAULT '',
+    device TEXT NOT NULL DEFAULT '',
+    browser TEXT NOT NULL DEFAULT '',
+    os TEXT NOT NULL DEFAULT '',
+    engaged_ms INTEGER NOT NULL DEFAULT 0
+  );
+  CREATE INDEX analytics_pageviews_by_ts ON analytics_pageviews (ts);
+  CREATE INDEX analytics_pageviews_by_last_seen ON analytics_pageviews (last_seen);
+
+  CREATE TABLE analytics_events (
+    id INTEGER PRIMARY KEY,
+    ts INTEGER NOT NULL,
+    visitor TEXT NOT NULL,
+    session TEXT NOT NULL,
+    path TEXT NOT NULL,
+    kind TEXT NOT NULL,
+    label TEXT NOT NULL,
+    target TEXT NOT NULL DEFAULT ''
+  );
+  CREATE INDEX analytics_events_by_ts ON analytics_events (ts);
   `
 ];
 

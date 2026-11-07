@@ -2,6 +2,7 @@ import fs from "node:fs";
 import cookieParser from "cookie-parser";
 import express from "express";
 import { COLLECTION_SCHEMAS } from "../../shared/contentSchema.js";
+import { analyticsReport, collect, isBot } from "./analytics.js";
 import {
   MIN_PASSWORD_LENGTH,
   SESSION_COOKIE,
@@ -108,6 +109,17 @@ export function createApp({ db, uploadsDir, siteUrl }) {
     res.json(viewsArePublic(db) ? result : { counted: result.counted });
   });
 
+  // Analytics beacons from the site's tracker (src/lib/analytics.js).
+  api.post("/collect", rateLimit({ windowMs: 60 * 1000, max: 120, message: "Too many requests." }), (req, res) => {
+    const userAgent = req.get("User-Agent") || "";
+    // Bots, your own visits while signed in, and browsers asking not to be tracked are ignored.
+    const optedOut = req.get("DNT") === "1" || req.get("Sec-GPC") === "1";
+    if (!isBot(userAgent) && !optedOut && !userFromRequest(db, req)) {
+      collect(db, req.body, { ip: req.ip, userAgent, ownHost: req.hostname });
+    }
+    res.status(204).end();
+  });
+
   api.post(
     "/contact",
     rateLimit({ windowMs: 60 * 60 * 1000, max: 5, message: "Too many messages. Please try again later." }),
@@ -198,6 +210,11 @@ export function createApp({ db, uploadsDir, siteUrl }) {
     const messages = db.prepare("SELECT COUNT(*) AS total, COALESCE(SUM(is_read = 0), 0) AS unread FROM messages").get();
     const topPosts = db.prepare("SELECT title, slug, views FROM posts WHERE published = 1 ORDER BY views DESC LIMIT 5").all();
     res.json({ posts, messages, topPosts });
+  });
+
+  // ?days=1|7|30|90&tz=<minutes from Date.getTimezoneOffset()>, so days follow the viewer's clock.
+  admin.get("/analytics", (req, res) => {
+    res.json(analyticsReport(db, { days: Number(req.query.days || 7), tzOffset: Number(req.query.tz || 0) }));
   });
 
   admin.get("/posts", (req, res) => {

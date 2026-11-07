@@ -41,6 +41,7 @@ export const profileData = {
   email: "puppala.san@gmail.com",
   linkedin: "https://www.linkedin.com/in/manikantapuppala/",
   github: "https://github.com/manikanta-sandeep",
+  kaggle: "https://www.kaggle.com/itsixorai",
   resumeFile: "/SP_Resume.pdf",
   availability: "Open to software engineering opportunities and graduate research collaboration.",
   tagline: "Software engineering, AI-driven product features, and technical writing.",

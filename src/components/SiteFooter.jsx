@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/auth";
 import { useContent } from "../context/content";
-import { CogIcon, UserIcon } from "./Icons";
+import { CogIcon, QrCodeIcon, UserIcon } from "./Icons";
 import SocialLinks from "./SocialLinks";
 
 export default function SiteFooter() {
@@ -24,6 +24,9 @@ export default function SiteFooter() {
         <div className="footer-icons">
           <SocialLinks variant="square" />
           <div className="social-links social-square">
+            <Link to="/qr" className="social-link" aria-label="QR codes" title="QR codes">
+              <QrCodeIcon />
+            </Link>
             <Link to={admin.to} className="social-link" aria-label={admin.label} title={admin.label}>
               <admin.Icon />
             </Link>

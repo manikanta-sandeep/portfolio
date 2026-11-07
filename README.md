@@ -8,7 +8,7 @@ Personal portfolio for sandeeppuppala.com: a React + Vite site with a small Node
 | --- | --- | --- |
 | Website | `src/` | React single-page app (public pages + `/admin`) |
 | API | `server/` | Express on port 3001: content, view counts, contact messages, login, uploads, sitemap |
-| Database | `server/data/portfolio.db` (dev), `/var/lib/portfolio` (prod) | SQLite: profile, sections, posts, views, messages, admin users, sessions |
+| Database | `server/data/portfolio.db` (dev), `/var/lib/portfolio` (prod) | SQLite: profile, sections, posts, views, messages, admin users, sessions, site analytics (cookieless; see `server/src/analytics.js`) |
 | Shared schema | `shared/contentSchema.js` | Field definitions used by both the admin forms and API validation |
 | Seed content | `src/data/` | Loaded into an empty database on first start, and the fallback if the API is unreachable |
 

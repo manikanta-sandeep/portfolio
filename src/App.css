@@ -2468,9 +2468,11 @@ mark {
 }
 
 @media (max-width: 639px) {
+  /* The icon row spans most of a phone screen, so leave room below it for the chat button. */
   .footer-row {
     flex-direction: column;
     text-align: center;
+    padding-bottom: 96px;
   }
 }
 
@@ -2932,5 +2934,206 @@ mark {
   .toc {
     position: sticky;
     top: 96px;
+  }
+}
+
+/* ---------- QR codes (/qr) ---------- */
+.qr-page {
+  max-width: 1024px;
+  padding-block: 48px 64px;
+}
+
+.qr-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.qr-header h1 {
+  margin-bottom: 12px;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 800;
+}
+
+.qr-header p {
+  max-width: 36rem;
+  margin-inline: auto;
+  font-size: 1.1rem;
+  color: var(--text-3);
+}
+
+/* Centered rows, so a last row with fewer codes still lines up in the middle. */
+.qr-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.qr-card {
+  width: min(100%, 300px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.qr-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.qr-card-text {
+  min-width: 0;
+}
+
+.qr-card-text p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qr-platform-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--blue-bg);
+  color: var(--blue-fg);
+}
+
+/* Always white behind the code: scanners need dark-on-light, in either theme. */
+.qr-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  cursor: zoom-in;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.qr-frame:hover:not(:disabled) {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.qr-frame:disabled {
+  cursor: default;
+}
+
+.qr-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.qr-generated {
+  image-rendering: pixelated;
+}
+
+.qr-expand-hint {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: inline-flex;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  background: rgb(23 15 37 / 0.72);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.qr-expand-hint .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.qr-frame:hover .qr-expand-hint,
+.qr-frame:focus-visible .qr-expand-hint {
+  opacity: 1;
+}
+
+.qr-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.qr-actions .btn {
+  flex: 1;
+}
+
+.qr-dialog {
+  width: min(92vw, 520px);
+  max-height: 92vh;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  color: #170f25;
+  box-shadow: var(--shadow-lg);
+}
+
+.qr-dialog::backdrop {
+  background: rgb(23 15 37 / 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.qr-dialog-body {
+  position: relative;
+  padding: 40px 24px 24px;
+  text-align: center;
+}
+
+.qr-dialog-body img {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.qr-dialog-title {
+  margin-top: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.qr-dialog-handle {
+  color: #736889;
+}
+
+.qr-dialog-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  padding: 6px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: #3e3351;
+  cursor: pointer;
+}
+
+.qr-dialog-close:hover {
+  background: #f4f1f8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qr-frame,
+  .qr-frame:hover:not(:disabled) {
+    transform: none;
+    transition: none;
   }
 }

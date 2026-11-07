@@ -11,7 +11,8 @@ const pages = [
     description: "Teaching, activities, achievements, awards, and certifications."
   },
   { title: "Blog", to: "/blog", description: "Technical articles and engineering notes." },
-  { title: "Contact", to: "/contact", description: "Send a message or find other ways to connect." }
+  { title: "Contact", to: "/contact", description: "Send a message or find other ways to connect." },
+  { title: "QR Codes", to: "/qr", description: "Scan to connect on LinkedIn, GitHub, and more." }
 ];
 
 export const searchGroups = ["Pages", "Projects", "Research", "Blog Posts", "Experience", "Skills", "Achievements"];

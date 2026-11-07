@@ -207,7 +207,8 @@ export function deletePost(db, id) {
 
 // ---------- Views ----------
 
-function viewSalt(db) {
+// Random secret mixed into visitor hashes (blog views and site analytics).
+export function viewSalt(db) {
   const row = db.prepare("SELECT value FROM settings WHERE key = 'view_salt'").get();
   if (row) {
     return row.value;

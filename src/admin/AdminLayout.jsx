@@ -1,7 +1,16 @@
 import { Suspense } from "react";
 import { Link, NavLink, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { COLLECTION_SCHEMAS } from "../../shared/contentSchema.js";
-import { ChartIcon, CogIcon, ExternalLinkIcon, InboxIcon, LogoutIcon, NewspaperIcon, UserIcon } from "../components/Icons";
+import {
+  ChartIcon,
+  CogIcon,
+  ExternalLinkIcon,
+  InboxIcon,
+  LogoutIcon,
+  NewspaperIcon,
+  TrendingUpIcon,
+  UserIcon
+} from "../components/Icons";
 import Seo from "../components/Seo";
 import { useAuth } from "../context/auth";
 import { useContent } from "../context/content";
@@ -9,6 +18,7 @@ import "./admin.css";
 
 const mainLinks = [
   { to: "/admin", label: "Dashboard", Icon: ChartIcon, end: true },
+  { to: "/admin/analytics", label: "Analytics", Icon: TrendingUpIcon },
   { to: "/admin/posts", label: "Blog posts", Icon: NewspaperIcon },
   { to: "/admin/profile", label: "Profile", Icon: UserIcon },
   { to: "/admin/messages", label: "Messages", Icon: InboxIcon }

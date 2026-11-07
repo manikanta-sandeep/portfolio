@@ -25,20 +25,24 @@ const AdminProfilePage = lazy(() => import("./admin/AdminProfilePage"));
 const AdminCollectionPage = lazy(() => import("./admin/AdminCollectionPage"));
 const AdminMessagesPage = lazy(() => import("./admin/AdminMessagesPage"));
 const AdminAccountPage = lazy(() => import("./admin/AdminAccountPage"));
+const AdminAnalyticsPage = lazy(() => import("./admin/AdminAnalyticsPage"));
+// Loaded on demand so the QR library is only downloaded on /qr.
+const QrPage = lazy(() => import("./pages/QrPage"));
+
+const pageLoading = (
+  <div className="app-loading" role="status">
+    <span className="spinner" aria-hidden="true" />
+  </div>
+);
 
 function App() {
   return (
-    <Suspense
-      fallback={
-        <div className="app-loading" role="status">
-          <span className="spinner" aria-hidden="true" />
-        </div>
-      }
-    >
+    <Suspense fallback={pageLoading}>
       <Routes>
         <Route path="admin/login" element={<AdminLoginPage />} />
         <Route path="admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
+          <Route path="analytics" element={<AdminAnalyticsPage />} />
           <Route path="posts" element={<AdminPostsPage />} />
           <Route path="posts/new" element={<AdminPostEditorPage />} />
           <Route path="posts/:id" element={<AdminPostEditorPage />} />
@@ -61,6 +65,14 @@ function App() {
           <Route path="blog/:id" element={<BlogPostPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="search" element={<SearchPage />} />
+          <Route
+            path="qr"
+            element={
+              <Suspense fallback={pageLoading}>
+                <QrPage />
+              </Suspense>
+            }
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

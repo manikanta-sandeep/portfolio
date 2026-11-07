@@ -121,6 +121,7 @@ export default function AdminCollectionPage() {
         <div>
           <h1>{schema.label}</h1>
           <p className="muted small">Order here is the order on the site. Changes go live when you save.</p>
+          {schema.description && <p className="muted small">{schema.description}</p>}
         </div>
         <div className="button-row">
           <button type="button" className="btn btn-secondary" onClick={add}>
