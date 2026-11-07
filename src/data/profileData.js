@@ -128,8 +128,8 @@ I enjoy exploring new technologies and keeping up with industry trends. Open to 
       github: "",
       demo: "",
       writeup: "/blog/predicting-penalty-kicks-from-run-up-video",
-      media: "/projects/penalty-kick/pipeline.mp4",
-      mediaPoster: "/projects/penalty-kick/pipeline-poster.jpg",
+      media: "/media/penalty-kick/pipeline.mp4",
+      mediaPoster: "/media/penalty-kick/pipeline-poster.jpg",
       mediaCaption: "The pipeline, step by step (illustration, not real match footage)",
       content: [
         "Each clip ends just before the kicker's foot meets the ball, so the model never sees the strike. It has to read the run-up and the players' posture to predict two things, both from the kicker's point of view: the kick direction (left, middle or right) and the goalkeeper's move (dive left, stay, dive right). The score is 0.7 × kick accuracy + 0.3 × keeper accuracy.",
@@ -150,8 +150,8 @@ I enjoy exploring new technologies and keeping up with industry trends. Open to 
       github: "",
       demo: "",
       writeup: "/blog/finding-the-same-neuron-twice",
-      media: "/projects/neuron-matching/pipeline.mp4",
-      mediaPoster: "/projects/neuron-matching/pipeline-poster.jpg",
+      media: "/media/neuron-matching/pipeline.mp4",
+      mediaPoster: "/media/neuron-matching/pipeline-poster.jpg",
       mediaCaption: "The pipeline on one test region, redrawn as stylized cells from my predicted masks (no microscopy images)",
       content: [
         "The same brain region is imaged twice: once alive, with a two-photon microscope (hazy, about 600 × 600 px), and once after the tissue is fixed and sectioned, with fluorescence microscopy (sharper, up to 1627 × 1627 px, and full of bright processes that look like cells). The section is rotated, slightly scaled and not in the same optical plane, and no alignment is given. The task is to segment every neuron in both images and say which cells are the same.",

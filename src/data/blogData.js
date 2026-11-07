@@ -21,7 +21,7 @@ export const blogPosts = [
     tags: ["computer vision", "pose estimation", "video", "ensembles", "kaggle"],
     featured: true,
     status: "Completed",
-    cover: "/projects/penalty-kick/cover.jpg",
+    cover: "/media/penalty-kick/cover.jpg",
     stack: ["PyTorch", "YOLO11x", "RTMPose", "DINOv2", "ConvNeXt", "R(2+1)D", "LightGBM", "OWLv2"],
     summary:
       "How I built a video pipeline that predicts where a penalty goes and which way the keeper dives, from footage that ends just before the ball is struck, and why I trusted cross-validation over the leaderboard.",
@@ -29,7 +29,7 @@ export const blogPosts = [
 
 This was Project 3 of NYU's CS-GY 6643 (Computer Vision), run as a class Kaggle competition. We entered as a two-person team, and I built the entire pipeline, from detection to the final ensemble. Every clip stops **0.02 seconds before the kicker's foot meets the ball**, so the model never sees the strike or what happens after it.
 
-@[animation](/projects/penalty-kick/pipeline.mp4 /projects/penalty-kick/pipeline-poster.jpg "The pipeline in seven steps (an illustration, not real match footage)")
+@[animation](/media/penalty-kick/pipeline.mp4 /media/penalty-kick/pipeline-poster.jpg "The pipeline in seven steps (an illustration, not real match footage)")
 
 ## The problem
 
@@ -140,7 +140,7 @@ I'll update this post with the final rank once the private leaderboard is out.`
     tags: ["computer vision", "segmentation", "registration", "microscopy", "kaggle"],
     featured: true,
     status: "Completed",
-    cover: "/projects/neuron-matching/cover.jpg",
+    cover: "/media/neuron-matching/cover.jpg",
     stack: ["PyTorch", "Cellpose-SAM", "DINOv2", "DINOCell", "OpenCV", "LightGBM", "ICP"],
     summary:
       "How I segmented every neuron in two very different microscopy images of the same mouse brain and matched them one-to-one, why matching turned out to be a segmentation problem, and what leave-one-mouse-out validation taught me about trusting held-out scores.",
@@ -148,7 +148,7 @@ I'll update this post with the final rank once the private leaderboard is out.`
 
 It was Question 5 of Project 2 in NYU's CS-GY 6643 (Computer Vision), run as a class Kaggle competition. We entered as a two-person team, and I built the pipeline end to end: segmentation, registration and matching.
 
-@[animation](/projects/neuron-matching/pipeline.mp4 /projects/neuron-matching/pipeline-poster.jpg "The pipeline on one test region, redrawn as stylized cells from my predicted masks (no microscopy images)")
+@[animation](/media/neuron-matching/pipeline.mp4 /media/neuron-matching/pipeline-poster.jpg "The pipeline on one test region, redrawn as stylized cells from my predicted masks (no microscopy images)")
 
 ## Two pictures of the same tissue
 
