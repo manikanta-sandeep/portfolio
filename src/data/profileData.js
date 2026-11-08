@@ -42,22 +42,21 @@ export const profileData = {
   linkedin: "https://www.linkedin.com/in/manikantapuppala/",
   github: "https://github.com/manikanta-sandeep",
   kaggle: "https://www.kaggle.com/itsixorai",
+  scholar: "https://scholar.google.com/citations?user=arLd81gAAAAJ",
   resumeFile: "/SP_Resume.pdf",
   availability: "Open to computer vision and machine learning roles, including internships.",
-  tagline: "Computer vision, machine learning, and the engineering that ships them.",
+  tagline: "Computer vision and machine learning.",
   responseTime: "24-48 hours",
   // Markdown: blank lines separate paragraphs, lines starting with "- " form a list.
-  interests: `I'm focused on computer vision and machine learning: building pipelines that turn raw images and video into reliable predictions, and validating them carefully enough to trust the result.
-
-Right now that means:
+  interests: `I'm focused on computer vision and machine learning. So far that has meant:
 
 - **Video understanding**: detection and tracking with YOLO, pose estimation with RTMPose, optical flow, and video models like R(2+1)D that predict what happens next from a few seconds of footage
 - **Fine-tuning vision models**: adapting DINOv2, ConvNeXt and Cellpose-SAM to small, domain-specific datasets
 - **Segmentation and matching**: instance segmentation of microscopy images, and registering and matching the same cells across two imaging modalities
-- **Honest evaluation**: grouped cross-validation, out-of-fold stacking, and not tuning on the public leaderboard
+- **Evaluation**: grouped cross-validation, out-of-fold stacking, and not tuning on the public leaderboard
 - **Training at scale**: mixed-precision training on NVIDIA A100 GPUs under Slurm
 
-Two years as a software engineer at Storable, where I worked on an AI-powered chatbot with response guardrails and built a micro-frontend architecture that rolled an improved UI out across 600+ facilities, shape how I build ML systems: as software that has to run reliably, not just a notebook.
+Before NYU, I was a software engineer at Storable for two years. I worked on an AI-powered chatbot with response guardrails and built a micro-frontend architecture that rolled out an improved UI across 600+ facilities.
 
 I'm looking for computer vision and machine learning roles. Please reach out.`,
   interestTags: ["Computer Vision", "Video Understanding", "Pose Estimation", "Vision Transformers", "Segmentation", "Machine Learning"],
@@ -141,7 +140,7 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
       id: "penalty-kick-prediction",
       title: "Penalty Kick & Goalkeeper Direction Prediction from Video",
       summary:
-        "A video pipeline that predicts where a penalty kick will go and which way the goalkeeper will dive, from run-up footage that stops 0.02 s before the ball is struck. I built it end to end for NYU CS-GY 6643 (Computer Vision), which we entered as a two-person team in a class Kaggle competition.",
+        "A video pipeline that predicts where a penalty kick will go and which way the goalkeeper will dive, from run-up footage that stops 0.02 s before the ball is struck. I built it end to end for a class Kaggle competition in NYU CS-GY 6643 (Computer Vision), which we entered as a two-person team.",
       stack: ["Python", "PyTorch", "YOLO11x", "RTMPose", "DINOv2", "ConvNeXt", "R(2+1)D", "LightGBM", "OWLv2", "Optical Flow", "Slurm / HPC"],
       featured: true,
       github: "",
@@ -163,7 +162,7 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
       id: "cross-modal-neuron-matching",
       title: "Cross-Modal Neuron Segmentation & Matching",
       summary:
-        "Segments every neuron in paired in-vivo two-photon and ex-vivo fluorescence images of mouse brain, then matches each cell across the two images with no alignment given. I built it end to end for NYU CS-GY 6643 (Computer Vision), which we entered as a two-person team in a class Kaggle competition.",
+        "Segments every neuron in paired in-vivo two-photon and ex-vivo fluorescence images of mouse brain, then matches each cell across the two images with no alignment given. I built it end to end for a class Kaggle competition in NYU CS-GY 6643 (Computer Vision), which we entered as a two-person team.",
       stack: ["Python", "PyTorch", "Cellpose-SAM", "DINOv2", "DINOCell", "OpenCV", "LightGBM", "ICP", "Hungarian Algorithm", "Slurm / HPC"],
       featured: true,
       github: "",
@@ -184,30 +183,30 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
       id: "face-recognition-attendance",
       title: "Face-Recognition based Attendance System",
       summary:
-        "Developed an automated attendance system using a pre-trained CNN for face detection, integrated with Python Flask for the web interface and SQLite for data management and report generation.",
+        "An attendance system that recognizes faces with a pre-trained CNN, with a Python Flask web interface and SQLite for attendance records and reports.",
       stack: ["Python", "Flask", "Machine Learning", "CNN", "SQLite"],
       featured: true,
       github: "",
       demo: "",
       content: [
-        "Built between June and August 2023 to automate attendance capture with face recognition and a lightweight web interface.",
-        "I integrated a pre-trained CNN model for face detection with a Python Flask application and SQLite-backed storage for attendance history and report generation.",
-        "I evaluated model performance across varying lighting and environmental conditions and identified accuracy degradation, which shaped my understanding of deployment challenges in ML systems."
+        "Built between June and August 2023.",
+        "A pre-trained CNN detects faces. A Python Flask app serves the web interface, and SQLite stores attendance history and generates reports.",
+        "I tested it under different lighting and surroundings, and accuracy dropped as conditions changed. That showed me how much a model's accuracy depends on the conditions it's deployed in."
       ]
     },
     {
       id: "intelligent-transportation-system",
       title: "Intelligent System for Public and Private Transportation",
       summary:
-        "Developed an Android multi-user location tracking app on Firebase Realtime Database that lets users share their location 1:1 or 1:n with 100+ community members, plus public transport and emergency safety features.",
+        "An Android app for sharing your location with one person or a group, built on Firebase Realtime Database, with real-time bus tracking and emergency alerts.",
       stack: ["Android Java", "Firebase Realtime Database", "Geo-location"],
       featured: false,
       github: "",
       demo: "",
       content: [
-        "Built between December 2023 and February 2024 as a multi-user location tracking application.",
-        "I used Firebase Realtime Database to let users share their location either one-to-one or one-to-many with over 100 community members.",
-        "The app integrated public transportation features, including real-time bus tracking, and emergency services such as ambulance requests and women's safety alerts based on geo-location."
+        "Built between December 2023 and February 2024 in Android Java.",
+        "Users share their location one-to-one or with a group, across a community of over 100 members. Location updates sync through Firebase Realtime Database.",
+        "It also has real-time bus tracking, ambulance requests, and women's safety alerts based on the user's location."
       ]
     }
   ],
@@ -217,13 +216,11 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
       title:
         "A Two-Warehouse Inventory Model with an Advanced Payment Mechanism for Stock-Dependent Demand, Deteriorating Items with a Fixed Shelf Life and Partial Backlogging",
       summary:
-        "Developed a mathematical model for managing the inventory of perishable goods with real-world complexities: fixed shelf life, stock-dependent demand, advance payments, and partial backlogging.",
+        "A mathematical inventory model for perishable goods with a fixed shelf life, stock-dependent demand, advance payments, and partial backlogging.",
       stack: ["Operations Research", "Mathematical Modeling", "Inventory Systems"],
       content: [
         "Published as a book chapter with Taylor & Francis in June 2024.",
-        "This research modeled perishable inventory across two warehouses with realistic constraints around shelf life and demand behavior.",
-        "It introduced an advanced payment mechanism and stock-dependent demand terms to better reflect practical decision environments.",
-        "The framework can help optimize replenishment policy while balancing holding costs, shortages, and service expectations."
+        "The model covers perishable goods stored across two warehouses. Items expire after a fixed shelf life, demand depends on the stock level, purchases use an advance payment mechanism, and shortages are partially backlogged."
       ]
     }
   ],
@@ -248,7 +245,7 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
       location: "Hyderabad, Telangana, India",
       period: "Aug 2024 – Mar 2025",
       highlights: [
-        "Led the development of a compliance-related feature consuming APIs from two products, enabling an on-demand sync every 3 hours and securely storing specific data in the database for seamless website access.",
+        "Led the development of a compliance-related feature consuming APIs from two products, enabling an on-demand sync every 3 hours and storing the synced data securely in the database so websites could read it.",
         "Managed Redux data storage for site-wide display, preventing potential legal liabilities of $10,000 per website for 20% of sites, and implemented secure frontend settings allowing admins to enable or disable the feature.",
         "Introduced a feature to 70 beta customers by developing a component that hosts a web app after form submission, with a dedicated route and a GraphQL mutation to enable or disable it."
       ]
@@ -261,7 +258,7 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
       period: "Feb 2024 – Aug 2024",
       highlights: [
         "Enhanced the CMS UI on the MERN stack, supporting nearly 5,000 websites, by upgrading react-bootstrap (0.32.3 to 2.9.2) and bootstrap (3.0.0 to 5.0.0), while resolving nearly 50 bugs in 2 weeks and implementing new features with their backend settings.",
-        "Won 1st place in a Storable hackathon by developing a Flutter application that gives tenants a seamless experience using internal product data via APIs."
+        "Won 1st place in a Storable hackathon by developing a Flutter application for tenants that uses internal product data through APIs."
       ]
     }
   ],
@@ -295,7 +292,7 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
       title: "1st Place, Storable Hackathon",
       organization: "Storable",
       date: "2024",
-      description: "Built a Flutter application that gives tenants a seamless experience using internal product data via APIs.",
+      description: "Built a Flutter application for tenants that uses internal product data through APIs.",
       featured: true
     },
     {

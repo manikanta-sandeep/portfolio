@@ -77,7 +77,7 @@ export default function ProjectsPage() {
 
       <header className="page-header">
         <h1>Projects</h1>
-        <p>Things I&apos;ve built and studied, from ML systems to mobile apps and inventory models.</p>
+        <p>Computer vision work from my M.S. at NYU, plus earlier projects and research.</p>
       </header>
 
       <section className="page-section card-stack" aria-label="Projects">

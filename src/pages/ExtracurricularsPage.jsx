@@ -11,13 +11,13 @@ export default function ExtracurricularsPage() {
     <>
       <Seo
         title="Beyond Work"
-        description={`Teaching, activities, achievements, and certifications of ${profileData.displayName}.`}
+        description={`Awards, competitions, leadership programs, and certifications of ${profileData.displayName}.`}
         path="/extracurriculars"
       />
 
       <header className="page-header">
         <h1>Beyond Work</h1>
-        <p>Recognition, leadership, and learning outside my day job.</p>
+        <p>Awards, competitions, and leadership programs.</p>
       </header>
 
       {teaching.length > 0 && (
@@ -81,10 +81,7 @@ export default function ExtracurricularsPage() {
           <div className="grid-2">
             {achievements.map((item) => (
               <Reveal as="article" key={item.title} className="card card-pad">
-                <div className="card-head">
-                  <h3 className="card-title">{item.title}</h3>
-                  {item.featured && <span className="badge badge-amber">Featured</span>}
-                </div>
+                <h3 className="card-title">{item.title}</h3>
                 <p className="muted small">
                   {item.organization}
                   {item.date && ` · ${item.date}`}

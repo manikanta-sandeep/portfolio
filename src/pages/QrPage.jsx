@@ -8,6 +8,7 @@ import {
   ExpandIcon,
   ExternalLinkIcon,
   GitHubIcon,
+  GoogleScholarIcon,
   KaggleIcon,
   LinkIcon,
   LinkedInIcon,
@@ -30,6 +31,9 @@ function platformIcon(platform) {
   if (name.includes("kaggle")) {
     return KaggleIcon;
   }
+  if (name.includes("scholar")) {
+    return GoogleScholarIcon;
+  }
   if (name === "x" || name.includes("twitter")) {
     return XBrandIcon;
   }
@@ -46,7 +50,8 @@ function defaultCodes(profile) {
     { platform: "Website", handle: new URL(siteConfig.siteUrl).host, url: siteConfig.siteUrl },
     profile.linkedin && { platform: "LinkedIn", handle: lastSegment(profile.linkedin), url: profile.linkedin },
     profile.github && { platform: "GitHub", handle: lastSegment(profile.github), url: profile.github },
-    profile.kaggle && { platform: "Kaggle", handle: lastSegment(profile.kaggle), url: profile.kaggle }
+    profile.kaggle && { platform: "Kaggle", handle: lastSegment(profile.kaggle), url: profile.kaggle },
+    profile.scholar && { platform: "Google Scholar", handle: profile.displayName, url: profile.scholar }
   ].filter(Boolean);
 }
 

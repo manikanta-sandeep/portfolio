@@ -31,6 +31,7 @@ export const PROFILE_FIELDS = [
   { key: "github", label: "GitHub URL", type: "url" },
   { key: "linkedin", label: "LinkedIn URL", type: "url" },
   { key: "kaggle", label: "Kaggle URL", type: "url" },
+  { key: "scholar", label: "Google Scholar URL", type: "url" },
   { key: "resumeFile", label: "Resume URL", type: "url", upload: "pdf", help: "Upload a PDF or paste a URL." },
   { key: "tagline", label: "Footer tagline", type: "text", max: 200 },
   { key: "responseTime", label: "Reply time", type: "text", max: 40, help: 'Shown on the contact page, e.g. "24-48 hours".' },
@@ -162,7 +163,7 @@ export const COLLECTION_SCHEMAS = {
     titleKey: "platform",
     subtitleKey: "handle",
     description:
-      "Shown at /qr. Each entry gets a QR code made from its link. Until you add any, the page shows your website, LinkedIn, GitHub, and Kaggle from your profile.",
+      "Shown at /qr. Each entry gets a QR code made from its link. Until you add any, the page shows your website, LinkedIn, GitHub, Kaggle, and Google Scholar from your profile.",
     fields: [
       { key: "platform", label: "Platform", type: "text", required: true, max: 60, help: "e.g. LinkedIn, Instagram, WhatsApp." },
       { key: "handle", label: "Handle or caption", type: "text", max: 80, help: "Shown under the code, e.g. @manikantapuppala." },

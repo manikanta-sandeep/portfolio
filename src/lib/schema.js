@@ -29,7 +29,7 @@ export function personSchema(profile, site) {
     jobTitle: profile.role,
     description: profile.summary,
     email: profile.email ? `mailto:${profile.email}` : undefined,
-    sameAs: [profile.linkedin, profile.github, profile.kaggle].filter(Boolean),
+    sameAs: [profile.linkedin, profile.github, profile.kaggle, profile.scholar].filter(Boolean),
     alumniOf: (profile.education || []).map((item) => ({
       "@type": "CollegeOrUniversity",
       name: item.institution.split(",")[0],

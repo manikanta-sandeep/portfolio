@@ -104,8 +104,12 @@ export default function BlogPage() {
   const visiblePosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE);
   const isFiltered = Boolean(categorySlug || tag);
 
-  const latest = sortedPosts[0];
+  // The banner, counters and "Worth Reading" only add something once there are a few posts;
+  // with fewer they would show the same posts three times.
+  const showcase = sortedPosts.length > 3;
+  const latest = showcase ? sortedPosts[0] : null;
   const featured = sortedPosts.filter((post) => post.featured).slice(0, 3);
+  const description = "Notes on my computer vision and machine learning projects: what I built, what worked, and what didn't.";
   const stats = [
     { label: "Posts", value: sortedPosts.length },
     { label: "Topics", value: categories.length },
@@ -130,7 +134,7 @@ export default function BlogPage() {
     <>
       <Seo
         title="Blog"
-        description="Notes on my computer vision and machine learning projects: what I built, what worked, and what didn't."
+        description={description}
         path="/blog"
         schema={blogSchema(sortedPosts)}
       />
@@ -164,16 +168,23 @@ export default function BlogPage() {
       )}
 
       <div className="container blog-body">
-        <div className="stats-bar">
-          {stats.map((stat) => (
-            <div key={stat.label} className="stat">
-              <div className="stat-value tone-text-indigo">{stat.value}</div>
-              <div className="stat-label">{stat.label}</div>
-            </div>
-          ))}
-        </div>
+        {showcase ? (
+          <div className="stats-bar">
+            {stats.map((stat) => (
+              <div key={stat.label} className="stat">
+                <div className="stat-value tone-text-indigo">{stat.value}</div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <header className="page-header">
+            <h1>Blog</h1>
+            <p>{description}</p>
+          </header>
+        )}
 
-        {!isFiltered && page === 1 && featured.length > 0 && (
+        {showcase && !isFiltered && page === 1 && featured.length > 0 && (
           <section className="featured-posts" aria-labelledby="featured-heading">
             <h2 id="featured-heading" className="section-title with-icon">
               <SparklesIcon />
@@ -188,20 +199,22 @@ export default function BlogPage() {
         )}
 
         <section id="all-posts" className="all-posts" aria-label="All posts">
-          <div className="filter-row" role="navigation" aria-label="Filter by category">
-            <Link className={`filter-chip${!categorySlug ? " active" : ""}`} to="/blog#all-posts">
-              Everything
-            </Link>
-            {categories.map((category) => (
-              <Link
-                key={category.slug}
-                to={`/blog?category=${category.slug}#all-posts`}
-                className={`filter-chip${categorySlug === category.slug ? " active" : ""}`}
-              >
-                {category.name} ({category.count})
+          {(categories.length > 1 || categorySlug) && (
+            <div className="filter-row" role="navigation" aria-label="Filter by category">
+              <Link className={`filter-chip${!categorySlug ? " active" : ""}`} to="/blog#all-posts">
+                Everything
               </Link>
-            ))}
-          </div>
+              {categories.map((category) => (
+                <Link
+                  key={category.slug}
+                  to={`/blog?category=${category.slug}#all-posts`}
+                  className={`filter-chip${categorySlug === category.slug ? " active" : ""}`}
+                >
+                  {category.name} ({category.count})
+                </Link>
+              ))}
+            </div>
+          )}
 
           {tag && (
             <p className="filter-status">

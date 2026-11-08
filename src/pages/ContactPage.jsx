@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "../components/Seo";
-import { ClockIcon, CollectionIcon, CopyIcon, MailIcon, NewspaperIcon } from "../components/Icons";
+import { CollectionIcon, CopyIcon, MailIcon, NewspaperIcon } from "../components/Icons";
 import { useContent } from "../context/content";
 import { useToast } from "../context/toast";
 import { api } from "../lib/api";
@@ -180,10 +180,6 @@ export default function ContactPage() {
           <section className="callout" aria-labelledby="quick-response-heading">
             <h3 id="quick-response-heading">Reply Time</h3>
             <p>I usually reply within {profileData.responseTime}. If it&apos;s time-sensitive, say so in the subject line.</p>
-            <p className="muted small with-icon">
-              <ClockIcon />
-              Response time: {profileData.responseTime}
-            </p>
           </section>
 
           <section className="card card-pad" aria-labelledby="connect-heading">

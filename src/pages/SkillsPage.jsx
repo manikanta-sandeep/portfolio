@@ -11,6 +11,7 @@ const skillShape = PropTypes.shape({
   // "" means no level was chosen in the admin.
   level: PropTypes.oneOf(["", ...Object.keys(LEVEL_PERCENT)]),
   years: PropTypes.number,
+  featured: PropTypes.bool,
   description: PropTypes.string
 });
 
@@ -70,7 +71,8 @@ function SkillTile({ skill }) {
         )}
       </div>
       {skill.level && <ProficiencyBar level={skill.level} thin />}
-      {skill.description && <p className="muted small">{skill.description}</p>}
+      {/* Featured skills already show their description in Core Strengths. */}
+      {skill.description && !skill.featured && <p className="muted small">{skill.description}</p>}
     </div>
   );
 }
@@ -82,17 +84,6 @@ export default function SkillsPage() {
   const { skills } = profileData;
   const featured = skills.filter((skill) => skill.featured);
   const categories = [...new Set(skills.map((skill) => skill.category))];
-  const withYears = skills.filter((skill) => typeof skill.years === "number");
-  const averageYears = withYears.length
-    ? (withYears.reduce((total, skill) => total + skill.years, 0) / withYears.length).toFixed(1)
-    : null;
-
-  const stats = [
-    { label: "Total Skills", value: skills.length, tone: "blue" },
-    { label: "Categories", value: categories.length, tone: "purple" },
-    { label: "Featured", value: featured.length, tone: "green" },
-    ...(averageYears ? [{ label: "Avg. Years", value: averageYears, tone: "orange" }] : [])
-  ];
 
   return (
     <>
@@ -124,33 +115,32 @@ export default function SkillsPage() {
         <h2 id="all-skills-heading" className="section-title">
           Full Toolkit
         </h2>
-        {categories.map((category) => (
-          <Reveal key={category} className="skill-group">
-            <h3 className="group-title">{category}</h3>
-            <div className="grid-2">
-              {skills
-                .filter((skill) => skill.category === category)
-                .map((skill) => (
-                  <SkillTile key={skill.name} skill={skill} />
-                ))}
-            </div>
-          </Reveal>
-        ))}
+        {categories.map((category) => {
+          const inCategory = skills.filter((skill) => skill.category === category);
+          // Skills with a level, years or their own description get a tile; plain names are tags.
+          const detailed = inCategory.filter((skill) => skill.level || skill.years || (skill.description && !skill.featured));
+          const plain = inCategory.filter((skill) => !detailed.includes(skill));
+          return (
+            <Reveal key={category} className="skill-group">
+              <h3 className="group-title">{category}</h3>
+              {detailed.length > 0 && (
+                <div className="grid-2">
+                  {detailed.map((skill) => (
+                    <SkillTile key={skill.name} skill={skill} />
+                  ))}
+                </div>
+              )}
+              {plain.length > 0 && (
+                <ul className="skill-tags">
+                  {plain.map((skill) => (
+                    <li key={skill.name}>{skill.name}</li>
+                  ))}
+                </ul>
+              )}
+            </Reveal>
+          );
+        })}
       </section>
-
-      <Reveal as="section" className="card card-pad stats-card" aria-labelledby="skills-overview-heading">
-        <h3 id="skills-overview-heading" className="card-title">
-          At a Glance
-        </h3>
-        <div className="stats-grid">
-          {stats.map((stat) => (
-            <div key={stat.label} className="stat">
-              <div className={`stat-value tone-text-${stat.tone}`}>{stat.value}</div>
-              <div className="stat-label">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </Reveal>
     </>
   );
 }

@@ -61,7 +61,7 @@ Before any model can read body language, the pipeline has to know who the kicker
 - **Pitch calibration** (PnLCalib) tells us the camera view.
 - Every clip is **mirrored into one canonical frame**, with the goal on the same side, and the kicker's preferred foot taken into account.
 
-That last step matters more than it sounds. A left-footed kicker's "natural" side is the mirror image of a right-footer's, so normalising for it lets the model learn one pattern instead of two.
+Mirroring by preferred foot helped because a left-footed kicker's "natural" side is the mirror image of a right-footer's, so normalising for it lets the model learn one pattern instead of two.
 
 ## Step 2: Pose and motion features
 
@@ -171,7 +171,7 @@ S = 0.25 · PQ(in-vivo) + 0.25 · PQ(ex-vivo) + 0.5 · F1(matching)
 
 PQ is panoptic quality, and it counts a mask only at **IoU above 0.75**. A pair counts only if it's an annotated pair and both of its masks also pass that test.
 
-That last rule shapes everything. Matching is half the score, but on a cell about 10 px across, one pixel of outline error drops IoU below 0.75 and loses the pair. When I checked held-out results on the training mice, **79% of the missed pairs failed on a mask, not on the matching.**
+That rule ties matching to segmentation. Matching is half the score, but on a cell about 10 px across, one pixel of outline error drops IoU below 0.75 and loses the pair. When I checked held-out results on the training mice, **79% of the missed pairs failed on a mask, not on the matching.**
 
 ## Segmentation: each model won one modality
 

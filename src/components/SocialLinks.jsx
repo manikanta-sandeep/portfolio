@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import { useContent } from "../context/content";
-import { GitHubIcon, LinkedInIcon, MailIcon } from "./Icons";
+import { GitHubIcon, GoogleScholarIcon, LinkedInIcon, MailIcon } from "./Icons";
 
 // Links whose profile field is empty are left out.
 function buildLinks(profile) {
   return [
     { label: "GitHub", value: profile.github, href: profile.github, Icon: GitHubIcon },
     { label: "LinkedIn", value: profile.linkedin, href: profile.linkedin, Icon: LinkedInIcon },
+    { label: "Google Scholar", value: profile.scholar, href: profile.scholar, Icon: GoogleScholarIcon },
     {
       label: "Email",
       value: profile.email,

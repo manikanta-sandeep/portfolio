@@ -12,7 +12,7 @@ const GROUPS = [
   { title: "Identity", keys: ["displayName", "fullName", "initials", "pronouns", "photo"] },
   { title: "Headline", keys: ["role", "headline", "organizationName", "organizationUrl", "location", "availability"] },
   { title: "Bio page", keys: ["summary", "interests", "interestTags"] },
-  { title: "Contact & links", keys: ["email", "github", "linkedin", "kaggle", "resumeFile", "responseTime", "tagline"] },
+  { title: "Contact & links", keys: ["email", "github", "linkedin", "kaggle", "scholar", "resumeFile", "responseTime", "tagline"] },
   { title: "Site settings", keys: ["showViews"] }
 ];
 

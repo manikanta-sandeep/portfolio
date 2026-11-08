@@ -1204,6 +1204,29 @@
   font-weight: 400;
 }
 
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.grid-2 + .skill-tags {
+  margin-top: 16px;
+}
+
+.skill-tags li {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
 .skill-tile {
   display: flex;
   flex-direction: column;
@@ -1743,13 +1766,10 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  height: 192px;
+  /* Same shape as the cover images (16:9), so nothing in them is cropped. */
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   color: rgb(255 255 255 / 0.92);
-}
-
-.post-cover-sm {
-  height: 160px;
 }
 
 .post-cover::before {
