@@ -130,7 +130,7 @@ export default function BlogPage() {
     <>
       <Seo
         title="Blog"
-        description="Technical notes on software engineering, architecture, and delivery practices."
+        description="Notes on my computer vision and machine learning projects: what I built, what worked, and what didn't."
         path="/blog"
         schema={blogSchema(sortedPosts)}
       />

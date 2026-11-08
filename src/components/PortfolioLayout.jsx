@@ -27,7 +27,12 @@ function ProfileCard() {
         {profileData.pronouns && <span>{profileData.pronouns}</span>}
       </div>
       {showFullName && <p className="profile-fullname">{profileData.fullName}</p>}
-      <p className="profile-headline">{profileData.headline}</p>
+      {/* "Role · Degree" shows as one line each. */}
+      <p className="profile-headline">
+        {profileData.headline.split(" · ").map((part) => (
+          <span key={part}>{part}</span>
+        ))}
+      </p>
       {profileData.organizationName && (
         <p className="profile-org">
           {profileData.organizationUrl ? (

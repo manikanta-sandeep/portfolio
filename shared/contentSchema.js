@@ -14,7 +14,13 @@ export const PROFILE_FIELDS = [
   { key: "initials", label: "Initials", type: "text", required: true, max: 3, help: "Shown in the logo and when there is no photo." },
   { key: "pronouns", label: "Pronouns", type: "text", max: 30, help: "Optional, shown next to your name, e.g. (they/them)." },
   { key: "role", label: "Role", type: "text", max: 80 },
-  { key: "headline", label: "Headline", type: "text", max: 120 },
+  {
+    key: "headline",
+    label: "Headline",
+    type: "text",
+    max: 120,
+    help: 'Separate parts with " · " to show each on its own line in the sidebar.'
+  },
   { key: "organizationName", label: "Organization", type: "text", max: 120 },
   { key: "organizationUrl", label: "Organization URL", type: "url" },
   { key: "photo", label: "Photo URL", type: "url", upload: "image", help: "Upload a headshot or paste a URL. Initials are shown when empty." },

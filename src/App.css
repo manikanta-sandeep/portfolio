@@ -557,6 +557,10 @@
   color: var(--text-2);
 }
 
+.profile-headline span {
+  display: block;
+}
+
 .profile-org {
   margin-bottom: 16px;
   font-size: 0.875rem;

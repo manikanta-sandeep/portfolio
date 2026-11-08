@@ -2,9 +2,9 @@ export const siteConfig = {
   siteName: "Sandeep Puppala",
   siteUrl: "https://sandeeppuppala.com",
   // Title of the home page: the name first, since that is what people search for.
-  homeTitle: "Sandeep Puppala | Software Engineer, NYU M.S. Computer Science",
+  homeTitle: "Sandeep Puppala | Computer Vision & ML Engineer, NYU M.S. Computer Science",
   defaultDescription:
-    "Sandeep Puppala (Bala Sai Manikanta Sandeep Puppala) is a software engineer and M.S. Computer Science student at New York University, formerly at Storable India. Projects, experience, skills, and writing.",
+    "Sandeep Puppala (Bala Sai Manikanta Sandeep Puppala) is a computer vision and machine learning engineer and M.S. Computer Science student at New York University, formerly a Software Engineer I at Storable. Video understanding, pose estimation, and segmentation projects, experience, and writing.",
   // Other forms of the name people may search for. Used only in structured data for search engines.
   alternateNames: [
     "Bala Sai Manikanta Sandeep Puppala",
@@ -22,100 +22,119 @@ export const siteConfig = {
 
 // Initial content. The API seeds its database from this file on first start, and the site
 // falls back to it when the API is unreachable. Once the site is running, edit content in /admin.
-// Last synced with SP_Resume.pdf (Nov 2026).
+// Last synced with SP_Resume.pdf (Nov 2026, computer vision version).
 export const profileData = {
   fullName: "Bala Sai Manikanta Sandeep Puppala",
   displayName: "Sandeep Puppala",
   initials: "SP",
   // Shown next to the name in the sidebar when set, e.g. "(they/them)".
   pronouns: "",
-  role: "Software Engineer",
-  headline: "Software Engineer | M.S. Computer Science",
+  role: "Computer Vision & ML Engineer",
+  headline: "Computer Vision & ML Engineer · M.S. Computer Science",
   organizationName: "New York University",
   organizationUrl: "https://www.nyu.edu/",
   // URL of a headshot (upload one in /admin). Initials are shown when empty.
   photo: "/profile.jpg",
   location: "New York, NY",
   summary:
-    "Software Engineer and M.S. Computer Science student at New York University, with over two years at Storable India building AI-driven product features, CMS platforms, and micro-frontend architecture.",
+    "Computer vision and machine learning engineer, and M.S. Computer Science student at New York University. I build end-to-end vision pipelines, from detection and pose estimation to fine-tuned vision transformers and stacked ensembles, trained on GPU clusters. Before NYU, I spent over two years as a software engineer at Storable, where I worked on an AI-powered chatbot and built features for a CMS that runs nearly 5,000 websites.",
   email: "puppala.san@gmail.com",
   linkedin: "https://www.linkedin.com/in/manikantapuppala/",
   github: "https://github.com/manikanta-sandeep",
   kaggle: "https://www.kaggle.com/itsixorai",
   resumeFile: "/SP_Resume.pdf",
-  availability: "Open to software engineering opportunities and graduate research collaboration.",
-  tagline: "Software engineering, AI-driven product features, and technical writing.",
+  availability: "Open to computer vision and machine learning roles, including internships.",
+  tagline: "Computer vision, machine learning, and the engineering that ships them.",
   responseTime: "24-48 hours",
   // Markdown: blank lines separate paragraphs, lines starting with "- " form a list.
-  interests: `At Storable India I built user-facing systems and internal tooling: an AI-powered chatbot that generates structured page sections, a micro-frontend integration that rolled an improved UI out across 600+ facilities, and zero-downtime PostgreSQL migrations on production tables. I am now pursuing an M.S. in Computer Science at New York University.
+  interests: `I'm focused on computer vision and machine learning: building pipelines that turn raw images and video into reliable predictions, and validating them carefully enough to trust the result.
 
-My technical experience spans:
+Right now that means:
 
-- AI agents and prompt engineering for features that return structured JSON, with guardrails for response validation
-- React, Redux, and GraphQL front ends for CMS platforms on the MERN stack
-- Micro-frontend architecture and large framework upgrades
-- PostgreSQL schema migrations and cloud services on AWS (S3, Bedrock)
+- **Video understanding**: detection and tracking with YOLO, pose estimation with RTMPose, optical flow, and video models like R(2+1)D that predict what happens next from a few seconds of footage
+- **Fine-tuning vision models**: adapting DINOv2, ConvNeXt and Cellpose-SAM to small, domain-specific datasets
+- **Segmentation and matching**: instance segmentation of microscopy images, and registering and matching the same cells across two imaging modalities
+- **Honest evaluation**: grouped cross-validation, out-of-fold stacking, and not tuning on the public leaderboard
+- **Training at scale**: mixed-precision training on NVIDIA A100 GPUs under Slurm
 
-I am also interested in operations research and mathematical modeling, from my work on a two-warehouse inventory model for deteriorating items.
+Two years as a software engineer at Storable, where I worked on an AI-powered chatbot with response guardrails and built a micro-frontend architecture that rolled an improved UI out across 600+ facilities, shape how I build ML systems: as software that has to run reliably, not just a notebook.
 
-I enjoy exploring new technologies and keeping up with industry trends. Open to software engineering opportunities and graduate research collaboration. Please reach out to collaborate.`,
-  interestTags: ["AI Agents", "Frontend Architecture", "Developer Tooling", "Cloud", "Operations Research"],
+I'm looking for computer vision and machine learning roles. Please reach out.`,
+  interestTags: ["Computer Vision", "Video Understanding", "Pose Estimation", "Vision Transformers", "Segmentation", "Machine Learning"],
   // level is one of Expert, Advanced, Intermediate, Beginner and drives the proficiency bar.
   // Skills without a level or years still appear; the bar and years are simply omitted.
   skills: [
     {
-      name: "React",
-      category: "Web & Backend",
+      name: "Pose Estimation",
+      category: "Computer Vision",
       featured: true,
       description:
-        "CMS UI on the MERN stack supporting nearly 5,000 websites, including a react-bootstrap 0.32 to 2.9 and bootstrap 3 to 5 upgrade."
+        "26-keypoint RTMPose skeletons for the kicker and goalkeeper, turned into features that predict the kick direction and the keeper's dive before the ball is struck."
+    },
+    {
+      name: "Vision Transformers",
+      category: "Computer Vision",
+      featured: true,
+      description:
+        "Fine-tuned DINOv2 (ViT-B and ViT-L) for penalty prediction from video, and DINOCell (a DINOv2 ViT-B/8 backbone with a Cellpose flow head) for neuron segmentation in microscopy."
+    },
+    {
+      name: "Ensembling & Stacking",
+      category: "ML & Deep Learning",
+      featured: true,
+      description:
+        "A 14-model stack, LightGBM on pose features plus fine-tuned DINOv2, ConvNeXt and R(2+1)D, combined by logistic regression on out-of-fold predictions: 0.826 on the public leaderboard against a 0.514 baseline."
+    },
+    {
+      name: "PyTorch",
+      category: "ML & Deep Learning",
+      featured: true,
+      description:
+        "Fine-tuning segmentation and video models with mixed-precision training on NVIDIA A100 GPUs under Slurm, for both computer vision projects."
     },
     {
       name: "AI Agents",
-      category: "AI & ML",
+      category: "ML & Deep Learning",
       featured: true,
       description:
         "An AI-powered chatbot that generates structured JSON for dynamic section rendering, with guardrails for response validation, cutting section creation from over two hours to under a minute."
     },
-    {
-      name: "JavaScript",
-      category: "Programming",
-      featured: true,
-      description: "Micro-frontend architecture integrating two web applications into a CMS deployed across 600+ facilities."
-    },
-    { name: "Python", category: "Programming" },
-    { name: "Java", category: "Programming" },
-    { name: "C", category: "Programming" },
-    { name: "Bash Scripting", category: "Programming" },
-    { name: "OOP & DSA", category: "Programming" },
-    { name: "Redux", category: "Web & Backend" },
-    { name: "GraphQL", category: "Web & Backend" },
-    { name: "MERN Stack", category: "Web & Backend" },
-    { name: "REST APIs", category: "Web & Backend" },
-    { name: "Micro-Frontend Architecture", category: "Web & Backend" },
-    { name: "Node.js", category: "Web & Backend" },
-    { name: "Prompt Engineering", category: "AI & ML" },
-    { name: "Scikit-learn", category: "AI & ML" },
-    { name: "CNNs", category: "AI & ML" },
-    { name: "Flask", category: "AI & ML" },
-    { name: "Pandas", category: "AI & ML" },
-    { name: "NumPy", category: "AI & ML" },
-    { name: "AWS (S3, Bedrock)", category: "Cloud & Databases" },
-    { name: "Azure Fundamentals", category: "Cloud & Databases" },
-    { name: "Cloud Computing", category: "Cloud & Databases" },
-    { name: "PostgreSQL", category: "Cloud & Databases" },
-    { name: "MongoDB", category: "Cloud & Databases" },
-    { name: "SQL", category: "Cloud & Databases" },
-    { name: "SQLite", category: "Cloud & Databases" },
-    { name: "Firebase", category: "Cloud & Databases" },
-    { name: "Git", category: "Workflow & Tools" },
-    { name: "Linux", category: "Workflow & Tools" },
-    { name: "Agile", category: "Workflow & Tools" },
-    { name: "Kanban", category: "Workflow & Tools" },
-    { name: "VS Code", category: "Workflow & Tools" },
-    { name: "Postman", category: "Workflow & Tools" },
-    { name: "Android Studio", category: "Workflow & Tools" },
-    { name: "Vim", category: "Workflow & Tools" }
+    { name: "OpenCV", category: "Computer Vision" },
+    { name: "Object Detection", category: "Computer Vision" },
+    { name: "Instance Segmentation", category: "Computer Vision" },
+    { name: "Optical Flow", category: "Computer Vision" },
+    { name: "Video Classification", category: "Computer Vision" },
+    { name: "ConvNeXt", category: "Computer Vision" },
+    { name: "R(2+1)D", category: "Computer Vision" },
+    { name: "timm", category: "ML & Deep Learning" },
+    { name: "ONNX Runtime", category: "ML & Deep Learning" },
+    { name: "LightGBM", category: "ML & Deep Learning" },
+    { name: "Scikit-learn", category: "ML & Deep Learning" },
+    { name: "Pandas", category: "ML & Deep Learning" },
+    { name: "NumPy", category: "ML & Deep Learning" },
+    { name: "Prompt Engineering", category: "ML & Deep Learning" },
+    { name: "HPC (Slurm)", category: "Compute & Cloud" },
+    { name: "Mixed-Precision Training", category: "Compute & Cloud" },
+    { name: "AWS (S3, Bedrock)", category: "Compute & Cloud" },
+    { name: "PostgreSQL", category: "Compute & Cloud" },
+    { name: "MongoDB", category: "Compute & Cloud" },
+    { name: "SQLite", category: "Compute & Cloud" },
+    { name: "Python", category: "Languages & Web" },
+    { name: "JavaScript", category: "Languages & Web" },
+    { name: "Java", category: "Languages & Web" },
+    { name: "C", category: "Languages & Web" },
+    { name: "Bash", category: "Languages & Web" },
+    { name: "React", category: "Languages & Web" },
+    { name: "Redux", category: "Languages & Web" },
+    { name: "GraphQL", category: "Languages & Web" },
+    { name: "Node.js", category: "Languages & Web" },
+    { name: "REST APIs", category: "Languages & Web" },
+    { name: "Flask", category: "Languages & Web" },
+    { name: "Git", category: "Tools" },
+    { name: "Linux", category: "Tools" },
+    { name: "VS Code", category: "Tools" },
+    { name: "Postman", category: "Tools" },
+    { name: "Vim", category: "Tools" }
   ],
   projects: [
     {
@@ -182,7 +201,7 @@ I enjoy exploring new technologies and keeping up with industry trends. Open to 
       summary:
         "Developed an Android multi-user location tracking app on Firebase Realtime Database that lets users share their location 1:1 or 1:n with 100+ community members, plus public transport and emergency safety features.",
       stack: ["Android Java", "Firebase Realtime Database", "Geo-location"],
-      featured: true,
+      featured: false,
       github: "",
       demo: "",
       content: [
@@ -216,8 +235,8 @@ I enjoy exploring new technologies and keeping up with industry trends. Open to 
       location: "Hyderabad, Telangana, India",
       period: "Apr 2025 – Jul 2026",
       highlights: [
-        "Designed and applied efficient PostgreSQL migrations to add new columns to a production schema across 4 tables, letting the team ship on schedule with zero downtime or data loss while reducing deployment risk.",
         "Developed an AI-powered chatbot system that generates structured JSON for dynamic section rendering, reducing section creation time from over 2 hours to under a minute, with guardrails for response validation and workflow reliability.",
+        "Designed and applied efficient PostgreSQL migrations to add new columns to a production schema across 4 tables, letting the team ship on schedule with zero downtime or data loss while reducing deployment risk.",
         "Built a Micro-Frontend architecture to integrate two web applications into the CMS with a configurable setup, enabling scalable deployment of an improved UI across 600+ facilities.",
         "Received the quarterly Storrior Spotlight Award four times and the Emerging Storrior Award for exceptional performance, rapid growth, and consistent delivery of high-priority tasks."
       ]
