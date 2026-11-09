@@ -103,7 +103,15 @@ console.log(`Backed up the database to ${backup}`);
 
 db.transaction(() => {
   if (fields.length > 0) {
-    saveProfile(db, { ...profile, ...Object.fromEntries(fields.map((key) => [key, profileData[key]])) });
+    // Saving fills every profile field, so also carry over fields added since the profile was
+    // last saved (as add-missing-content.js would); otherwise they'd be stored empty.
+    const added = PROFILE_FIELDS.filter((field) => !(field.key in profile) && profileData[field.key] !== undefined);
+    added.forEach((field) => console.log(`  also adding new field profile.${field.key}`));
+    saveProfile(db, {
+      ...profile,
+      ...Object.fromEntries(added.map((field) => [field.key, profileData[field.key]])),
+      ...Object.fromEntries(fields.map((key) => [key, profileData[key]]))
+    });
   }
   sections.forEach((name) => saveCollection(db, name, profileData[name] || []));
   postUpdates.forEach((post) => updatePost(db, post.dbId, post.input));

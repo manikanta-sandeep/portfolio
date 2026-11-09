@@ -30,6 +30,17 @@ import {
   updatePost,
   viewsArePublic
 } from "./content.js";
+import {
+  createNote,
+  deleteFile,
+  deleteNote,
+  driveUploadMiddleware,
+  getFile,
+  listFiles,
+  listNotes,
+  saveFiles,
+  updateNote
+} from "./drive.js";
 import { HttpError, badRequest, notFound } from "./errors.js";
 import { buildSitemap } from "./sitemap.js";
 import { saveUpload, uploadMiddleware } from "./uploads.js";
@@ -48,8 +59,9 @@ function text(value, max) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
 
-export function createApp({ db, uploadsDir, siteUrl }) {
+export function createApp({ db, uploadsDir, driveDir, siteUrl }) {
   fs.mkdirSync(uploadsDir, { recursive: true });
+  fs.mkdirSync(driveDir, { recursive: true });
 
   const app = express();
   app.disable("x-powered-by");
@@ -273,6 +285,41 @@ export function createApp({ db, uploadsDir, siteUrl }) {
 
   admin.post("/uploads", uploadMiddleware, (req, res) => {
     res.status(201).json(saveUpload(uploadsDir, req.file));
+  });
+
+  // Notes & Files: private, for moving text and files between devices.
+  admin.get("/notes", (req, res) => {
+    res.json({ notes: listNotes(db) });
+  });
+  admin.post("/notes", (req, res) => {
+    res.status(201).json({ note: createNote(db, req.body) });
+  });
+  admin.put("/notes/:id", (req, res) => {
+    res.json({ note: updateNote(db, idParam(req), req.body) });
+  });
+  admin.delete("/notes/:id", (req, res) => {
+    deleteNote(db, idParam(req));
+    res.json({ ok: true });
+  });
+
+  admin.get("/files", (req, res) => {
+    res.json(listFiles(db));
+  });
+  admin.post("/files", driveUploadMiddleware(driveDir), (req, res) => {
+    res.status(201).json(saveFiles(db, driveDir, req.files));
+  });
+  admin.get("/files/:id/download", (req, res, next) => {
+    const file = getFile(db, driveDir, idParam(req));
+    // Always a download, never rendered: an uploaded HTML or SVG file can't run on this site.
+    res.download(file.path, file.name, { headers: { "Content-Type": "application/octet-stream" } }, (error) => {
+      if (error && !res.headersSent) {
+        next(error.code === "ENOENT" ? notFound("That file is missing on the server.") : error);
+      }
+    });
+  });
+  admin.delete("/files/:id", (req, res) => {
+    deleteFile(db, driveDir, idParam(req));
+    res.json({ ok: true });
   });
 
   api.use("/admin", admin);

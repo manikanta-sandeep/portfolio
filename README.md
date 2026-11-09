@@ -30,6 +30,7 @@ Sign in at `/admin` (also linked as "Sign in" in the footer). From there you can
 - Edit your profile (name, headline, photo, summary, interests, links, resume)
 - Edit every section: experience, education, skills (levels show proficiency bars), projects, research, teaching, activities, achievements, certifications; add, remove, and reorder entries
 - Read and manage contact form messages
+- Keep private notes and files (Notes & Files) to move text and files between your devices. Files are stored in `DATA_DIR/drive`, up to 100 MB each and 5 GB in total, and only download while signed in. They are not part of the daily backup.
 - See post view counts and change your password
 
 ## Blog Views

@@ -26,6 +26,7 @@ const AdminCollectionPage = lazy(() => import("./admin/AdminCollectionPage"));
 const AdminMessagesPage = lazy(() => import("./admin/AdminMessagesPage"));
 const AdminAccountPage = lazy(() => import("./admin/AdminAccountPage"));
 const AdminAnalyticsPage = lazy(() => import("./admin/AdminAnalyticsPage"));
+const AdminNotesPage = lazy(() => import("./admin/AdminNotesPage"));
 // Loaded on demand so the QR library is only downloaded on /qr.
 const QrPage = lazy(() => import("./pages/QrPage"));
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="profile" element={<AdminProfilePage />} />
           <Route path="sections/:name" element={<AdminCollectionPage />} />
           <Route path="messages" element={<AdminMessagesPage />} />
+          <Route path="notes" element={<AdminNotesPage />} />
           <Route path="account" element={<AdminAccountPage />} />
         </Route>
         <Route element={<SiteLayout />}>

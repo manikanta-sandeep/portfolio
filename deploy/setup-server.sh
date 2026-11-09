@@ -61,6 +61,7 @@ systemctl enable portfolio-api
 install -m 755 "$SCRIPT_DIR/portfolio-backup" /etc/cron.daily/portfolio-backup
 
 install -m 644 "$SCRIPT_DIR/nginx/sandeeppuppala-security.conf" /etc/nginx/snippets/sandeeppuppala-security.conf
+install -m 644 "$SCRIPT_DIR/nginx/sandeeppuppala-files.conf" /etc/nginx/snippets/sandeeppuppala-files.conf
 install -m 644 "$SCRIPT_DIR/nginx/${DOMAIN}.conf" "/etc/nginx/sites-available/${DOMAIN}.conf"
 ln -sf "/etc/nginx/sites-available/${DOMAIN}.conf" "/etc/nginx/sites-enabled/${DOMAIN}.conf"
 rm -f /etc/nginx/sites-enabled/default

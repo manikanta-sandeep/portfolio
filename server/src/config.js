@@ -12,5 +12,7 @@ export const config = {
   dataDir,
   dbFile: path.join(dataDir, "portfolio.db"),
   uploadsDir: path.join(dataDir, "uploads"),
+  // Private files from Admin > Notes & Files; never served publicly.
+  driveDir: path.join(dataDir, "drive"),
   sessionDays: 14
 };

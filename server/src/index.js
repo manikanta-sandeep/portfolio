@@ -13,7 +13,7 @@ if (!db.prepare("SELECT 1 FROM users").get()) {
   console.log('No admin account yet. Create one with "npm run create-admin -- <username>" in server/.');
 }
 
-const app = createApp({ db, uploadsDir: config.uploadsDir, siteUrl: config.siteUrl });
+const app = createApp({ db, uploadsDir: config.uploadsDir, driveDir: config.driveDir, siteUrl: config.siteUrl });
 const server = app.listen(config.port, config.host, () => {
   console.log(`Portfolio API listening on http://${config.host}:${config.port} (data: ${config.dataDir})`);
 });

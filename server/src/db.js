@@ -117,6 +117,24 @@ const MIGRATIONS = [
     target TEXT NOT NULL DEFAULT ''
   );
   CREATE INDEX analytics_events_by_ts ON analytics_events (ts);
+  `,
+  // Private notes and files for moving things between the owner's devices (src/drive.js).
+  // stored_name is the random file name in DATA_DIR/drive; name is the original one.
+  `
+  CREATE TABLE notes (
+    id INTEGER PRIMARY KEY,
+    body TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE drive_files (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    stored_name TEXT NOT NULL UNIQUE,
+    size INTEGER NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  );
   `
 ];
 

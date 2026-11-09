@@ -1,6 +1,6 @@
 import { basename } from "./paths";
 
-const API_ROOT = `${basename === "/" ? "" : basename}/api`;
+export const API_ROOT = `${basename === "/" ? "" : basename}/api`;
 
 export class ApiError extends Error {
   constructor(status, body) {

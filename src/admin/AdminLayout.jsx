@@ -3,6 +3,7 @@ import { Link, NavLink, Navigate, Outlet, useLocation, useNavigate } from "react
 import { COLLECTION_SCHEMAS } from "../../shared/contentSchema.js";
 import {
   ChartIcon,
+  ClipboardIcon,
   CogIcon,
   ExternalLinkIcon,
   InboxIcon,
@@ -21,7 +22,8 @@ const mainLinks = [
   { to: "/admin/analytics", label: "Analytics", Icon: TrendingUpIcon },
   { to: "/admin/posts", label: "Blog posts", Icon: NewspaperIcon },
   { to: "/admin/profile", label: "Profile", Icon: UserIcon },
-  { to: "/admin/messages", label: "Messages", Icon: InboxIcon }
+  { to: "/admin/messages", label: "Messages", Icon: InboxIcon },
+  { to: "/admin/notes", label: "Notes & Files", Icon: ClipboardIcon }
 ];
 
 export function AdminSpinner() {
