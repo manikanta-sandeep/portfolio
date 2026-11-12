@@ -5,16 +5,17 @@ import { PlayIcon } from "./Icons";
 
 const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
 
-// A short silent animation that plays like a GIF: muted, looping, inline. People who ask
-// their system for reduced motion get the poster and a play button instead of autoplay.
+// A short silent animation: it starts muted and looping, and the browser's own controls let
+// people pause it, scrub through it, or watch it full screen. People who ask their system
+// for reduced motion get the poster and a play button instead of autoplay.
 export default function LoopVideo({ src, poster, label }) {
   const video = useRef(null);
   const [still] = useState(reducedMotion);
-  const [playing, setPlaying] = useState(!still);
+  const [started, setStarted] = useState(!still);
 
   useEffect(() => {
     if (!still) {
-      video.current?.play().catch(() => setPlaying(false));
+      video.current?.play().catch(() => setStarted(false));
     }
   }, [still]);
 
@@ -29,11 +30,13 @@ export default function LoopVideo({ src, poster, label }) {
         playsInline
         autoPlay={!still}
         preload={still ? "none" : "auto"}
-        controls={!playing}
+        controls
+        controlsList="nodownload noremoteplayback"
+        disableRemotePlayback
         aria-label={label}
-        onPlay={() => setPlaying(true)}
+        onPlay={() => setStarted(true)}
       />
-      {!playing && (
+      {!started && (
         <button type="button" className="video-play" onClick={() => video.current?.play()} aria-label={`Play: ${label}`}>
           <span className="video-play-icon">
             <PlayIcon />
