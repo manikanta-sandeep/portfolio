@@ -24,10 +24,12 @@ export const blogPosts = [
     cover: "/media/penalty-kick/cover.jpg",
     stack: ["PyTorch", "YOLO11x", "RTMPose", "DINOv2", "ConvNeXt", "R(2+1)D", "LightGBM", "OWLv2"],
     summary:
-      "How I built a video pipeline that predicts where a penalty goes and which way the keeper dives, from footage that ends just before the ball is struck, and why I trusted cross-validation over the leaderboard.",
+      "How I built a video pipeline that predicts where a penalty goes and which way the keeper dives, from footage that ends just before the ball is struck, and how choosing my final submission by cross-validation instead of the leaderboard took us to 4th of 45 teams.",
     content: `In a penalty, the goalkeeper has to guess. The question behind this project was whether a model can make that call **before** the ball is struck: watching only the run-up, predict where the kick will go and which way the goalkeeper will move.
 
-This was Project 3 of NYU's CS-GY 6643 (Computer Vision), run as a class Kaggle competition. We entered as a two-person team, and I built the entire pipeline, from detection to the final ensemble. Every clip stops **0.02 seconds before the kicker's foot meets the ball**, so the model never sees the strike or what happens after it.
+This was Project 3 of NYU's CS-GY 6643 (Computer Vision), run as a class Kaggle competition. We entered as a two-person team, and I built the entire pipeline, from detection to the final ensemble. We finished **4th of 45 teams** and received an honorable mention, which came with a FIFA-style 3D-printed trophy.
+
+Every clip stops **0.02 seconds before the kicker's foot meets the ball**, so the model never sees the strike or what happens after it.
 
 @[animation](/media/penalty-kick/pipeline.mp4 /media/penalty-kick/pipeline-poster.jpg "The pipeline in seven steps (an illustration, not real match footage)")
 
@@ -100,7 +102,7 @@ On the public leaderboard, that went from LightGBM's 0.710 to about 0.77 with st
 
 The course README warned that clips from the same shootout leak between folds, so from day one I validated with **source-grouped 5-fold cross-validation, repeated over 3 seeds**: all clips from one source video stay in the same fold.
 
-The harder lesson came later. With only 360 clips on the public leaderboard, a few clips swing the score, and my cross-validation and the leaderboard sometimes disagreed. I picked submissions by cross-validation, using decision rules I fixed in advance. That's why the final selected submission isn't the one with the best public score (0.826): I chose the one with the strongest cross-validation (**0.801 CV, 0.819 public**). The private leaderboard will show whether that was right; it hasn't been released yet.
+The harder lesson came later. With only 360 clips on the public leaderboard, a few clips swing the score, and my cross-validation and the leaderboard sometimes disagreed. I picked submissions by cross-validation, using decision rules I fixed in advance. That's why the final selected submission isn't the one with the best public score (0.826): I chose the one with the strongest cross-validation (**0.801 CV, 0.819 public**). It was the right call. On the private leaderboard, that submission scored **0.792** and finished **4th of 45 teams**. The best public submission scored 0.782 privately, which would have placed 13th.
 
 ## What didn't work
 
@@ -127,9 +129,7 @@ Everything trained on NYU's HPC course cluster: NVIDIA A100 40 GB GPUs under Slu
 
 ## The takeaway
 
-> With a small public leaderboard, a few clips swing the ranking. Decide how you'll choose before you see the results, validate grouped by source, and trust cross-validation over the leaderboard.
-
-I'll update this post with the final rank once the private leaderboard is out.`
+> With a small public leaderboard, a few clips swing the ranking. Decide how you'll choose before you see the results, validate grouped by source, and trust cross-validation over the leaderboard. Here, that was the difference between 13th and 4th.`
   },
   {
     id: "finding-the-same-neuron-twice",

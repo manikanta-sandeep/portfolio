@@ -82,7 +82,7 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
       category: "ML & Deep Learning",
       featured: true,
       description:
-        "A 14-model stack, LightGBM on pose features plus fine-tuned DINOv2, ConvNeXt and R(2+1)D, combined by logistic regression on out-of-fold predictions: 0.826 on the public leaderboard against a 0.514 baseline."
+        "A 14-model stack, LightGBM on pose features plus fine-tuned DINOv2, ConvNeXt and R(2+1)D, combined by logistic regression on out-of-fold predictions. It finished 4th of 45 teams in a class Kaggle competition."
     },
     {
       name: "PyTorch",
@@ -140,7 +140,7 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
       id: "penalty-kick-prediction",
       title: "Penalty Kick & Goalkeeper Direction Prediction from Video",
       summary:
-        "A video pipeline that predicts where a penalty kick will go and which way the goalkeeper will dive, from run-up footage that stops 0.02 s before the ball is struck. I built it end to end for a class Kaggle competition in NYU CS-GY 6643 (Computer Vision), which we entered as a two-person team.",
+        "A video pipeline that predicts where a penalty kick will go and which way the goalkeeper will dive, from run-up footage that stops 0.02 s before the ball is struck. I built it end to end for a class Kaggle competition in NYU CS-GY 6643 (Computer Vision), which we entered as a two-person team. We finished 4th of 45 teams and received an honorable mention.",
       stack: ["Python", "PyTorch", "YOLO11x", "RTMPose", "DINOv2", "ConvNeXt", "R(2+1)D", "LightGBM", "OWLv2", "Optical Flow", "Slurm / HPC"],
       featured: true,
       github: "",
@@ -154,7 +154,7 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
         "The data is 2,200 broadcast clips from 215 source videos of men's and women's matches: shootouts, highlights and compilations, 1,300 for training and 900 for testing. Camera angles vary widely (some are mirrored), the frame is full of other people, and clips run from 0.3 to 9.8 seconds.",
         "I first find the right people. YOLO11x tracks players and the ball on a 25 Hz grid, OWLv2 finds the goal mouth, and the penalty ball is the object that stays still across frames. A pair-ranking picker chooses the kicker and keeper from their geometry relative to the ball and goal, with a DINOv2 appearance check to rescue wrong picks. Pitch calibration gives the camera view, and every clip is mirrored into one canonical frame that also accounts for the kicker's preferred foot.",
         "From there, RTMPose extracts 26-keypoint skeletons for kicker and keeper, alongside optical-flow and geometry features. A LightGBM model on these features was my first baseline (0.710 public). Fine-tuned DINOv2 (ViT-B and ViT-L), ConvNeXt and R(2+1)D video models added what hand-built features missed. Fourteen models are combined by a logistic-regression stack trained on out-of-fold predictions.",
-        "Validation was grouped by source video from day one (5 folds × 3 seeds), because clips from the same shootout leak between folds. The best public score was 0.826 against the 0.514 sample baseline, with 92% keeper accuracy in cross-validation. For the final ranking I chose the submission with the strongest cross-validation (0.801 CV, 0.819 public) using decision rules set in advance. The private leaderboard, which decides the final rank, hasn't been released yet.",
+        "Validation was grouped by source video from day one (5 folds × 3 seeds), because clips from the same shootout leak between folds. The best public score was 0.826 against the 0.514 sample baseline, with 92% keeper accuracy in cross-validation. For the final ranking I chose the submission with the strongest cross-validation (0.801 CV, 0.819 public) using decision rules set in advance. On the private leaderboard it scored 0.792 and finished 4th of 45 teams; the best public submission scored 0.782 privately, which would have placed 13th. The result earned an honorable mention and a FIFA-style 3D-printed trophy.",
         "Training ran on NYU's HPC course cluster (NVIDIA A100 40 GB GPUs under Slurm); retraining the final ensemble from scratch takes about 140 A100-hours. The code stays private until the course allows sharing it."
       ]
     },
@@ -282,6 +282,14 @@ I'm looking for computer vision and machine learning roles. Please reach out.`,
   // Each entry: { role, organization, url, location, period, current, type, description }
   activities: [],
   achievements: [
+    {
+      title: "4th of 45 Teams and Honorable Mention, Penalty Kick Prediction",
+      organization: "NYU CS-GY 6643 (Computer Vision), class Kaggle competition",
+      date: "Nov 2026",
+      description:
+        "Predicted penalty kick direction and the goalkeeper's dive from run-up video. The honorable mention came with a FIFA-style 3D-printed trophy.",
+      featured: true
+    },
     {
       title: "Storrior Spotlight Award (4×) and Emerging Storrior Award",
       organization: "Storable",
